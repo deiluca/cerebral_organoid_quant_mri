@@ -1,0 +1,43 @@
+# Download test data from: https://osf.io/8jz7e/
+model_path: /home/ws/oc9627/pytorch-3dunet/CHECKPOINT_DIR_ORGANOIDS_all_annot_28_07_22_incl_0630_org1_2/best_checkpoint.pytorch
+model:
+  name: UNet3D
+  # number of input channels to the model
+  in_channels: 1
+  # number of output channels
+  out_channels: 1
+  # determines the order of operators in a single layer (crg - Conv3d+ReLU+GroupNorm)
+  layer_order: gcr
+  # initial number of feature maps
+  f_maps: 32
+  # number of groups in the groupnorm
+  num_groups: 8
+  # apply element-wise nn.Sigmoid after the final 1x1x1 convolution, otherwise apply nn.Softmax
+  final_sigmoid: true
+predictor:
+  name: 'StandardPredictor'
+loaders:
+  # save predictions to output_dir
+  output_dir: ORGANOID_INFERENCE_ALL_DATA_INCL_0707_new_model
+  # batch dimension; if number of GPUs is N > 1, then a batch_size of N * batch_size will automatically be taken for DataParallel
+  batch_size: 1
+  # mirror pad the raw data in each axis for sharper prediction near the boundaries of the volume
+  # mirror_padding: [16, 32, 32]
+  # mirror_padding: [16, 32, 32]
+  # how many subprocesses to use for data loading
+  num_workers: 8
+  # test loaders configuration
+  test:
+    file_paths:
+      - /home/ws/oc9627/Dokumente/MRT_segmentations_UNet-3D/for_inference_all_samples
+
+    slice_builder:
+      name: SliceBuilder
+      patch_shape: [128, 99, 74]
+      stride_shape: [1, 1, 1]
+
+    transformer:
+      raw:
+        - name: Standardize
+        - name: ToTensor
+          expand_dims: true

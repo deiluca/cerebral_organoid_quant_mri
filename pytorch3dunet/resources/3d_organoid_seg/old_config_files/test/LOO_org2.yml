@@ -1,0 +1,33 @@
+loaders:
+  batch_size: 1
+  num_workers: 8
+  output_dir: CHECKPOINT_DIR_ORGANOIDS_LOO_org_2/test_out_incl_raw_pred
+  test:
+    file_paths:
+    - /home/ws/oc9627/Dokumente/MRT_images_and_inferred_segmentations_corrected/h5files/LOO_org2/test
+    slice_builder:
+      name: SliceBuilder
+      patch_shape:
+      - 128
+      - 99
+      - 74
+      stride_shape:
+      - 1
+      - 1
+      - 1
+    transformer:
+      raw:
+      - name: Standardize
+      - expand_dims: true
+        name: ToTensor
+model:
+  f_maps: 32
+  final_sigmoid: true
+  in_channels: 1
+  layer_order: gcr
+  name: UNet3D
+  num_groups: 8
+  out_channels: 1
+model_path: CHECKPOINT_DIR_ORGANOIDS_LOO_org_2/best_checkpoint.pytorch
+predictor:
+  name: StandardPredictor

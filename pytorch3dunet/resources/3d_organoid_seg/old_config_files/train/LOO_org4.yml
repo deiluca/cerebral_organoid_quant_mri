@@ -1,0 +1,86 @@
+eval_metric:
+  name: DiceCoefficient
+  threshold: 0.5
+  use_first_input: false
+  use_last_target: true
+loaders:
+  label_internal_path: /label
+  num_workers: 8
+  raw_internal_path: /raw
+  train:
+    file_paths:
+    - /home/ws/oc9627/Dokumente/MRT_images_and_inferred_segmentations_corrected/h5files/LOO_org4/train
+    slice_builder:
+      name: FilterSliceBuilder
+      patch_shape:
+      - 128
+      - 99
+      - 74
+      slack_acceptance: 0.01
+      stride_shape:
+      - 1
+      - 1
+      - 1
+      threshold: 1.0e-06
+    transformer:
+      label:
+      - name: BlobsToMask
+      - expand_dims: false
+        name: ToTensor
+      raw:
+      - name: Standardize
+      - expand_dims: true
+        name: ToTensor
+  val:
+    file_paths:
+    - /home/ws/oc9627/Dokumente/MRT_images_and_inferred_segmentations_corrected/h5files/LOO_org4/val
+    slice_builder:
+      name: FilterSliceBuilder
+      patch_shape:
+      - 128
+      - 99
+      - 74
+      slack_acceptance: 0.01
+      stride_shape:
+      - 1
+      - 1
+      - 1
+      threshold: 1.0e-07
+    transformer:
+      label:
+      - name: BlobsToMask
+      - expand_dims: false
+        name: ToTensor
+      raw:
+      - name: Standardize
+      - expand_dims: true
+        name: ToTensor
+loss:
+  ignore_index: null
+  name: BCEDiceLoss
+  skip_last_target: false
+lr_scheduler:
+  factor: 0.5
+  mode: min
+  name: ReduceLROnPlateau
+  patience: 1000000
+model:
+  f_maps: 32
+  final_sigmoid: true
+  in_channels: 1
+  layer_order: gcr
+  name: UNet3D
+  num_groups: 8
+  out_channels: 1
+optimizer:
+  learning_rate: 0.001
+  weight_decay: 1.0e-07
+trainer:
+  checkpoint_dir: CHECKPOINT_DIR_ORGANOIDS_LOO_org_4
+  eval_score_higher_is_better: true
+  log_after_iters: 1
+  max_num_epochs: 1000
+  max_num_iterations: 2000
+  pre_trained: null
+  resume: null
+  validate_after_iters: 20

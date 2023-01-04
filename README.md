@@ -7,6 +7,8 @@ This repository quantifies cerebral organoids in MRI. It especially implements t
 - global cyst classification
 - local cyst segmentation
 
+For the implementation of the 3D U-Net the full credit goes to https://github.com/wolny/pytorch-3dunet
+
 ## Prerequisites
 
 * Operating system: Windows (tested on Windows 10) or Linux (tested on Ubuntu 18.04) **Adapt**
@@ -29,6 +31,7 @@ Activate the co_quant_mri_ve:
 ```
 conda activate co_quant_mri_ve
 ```
+
 
 ## Data preparation
 
@@ -86,3 +89,4 @@ See scripts/data_analysis.ipynb
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
      
+If you find this usefil, please consider citing our work:
