@@ -4,7 +4,7 @@ import numpy as np
 import numpy
 from os.path import join as opj
 
-from scripts.utils.constants import IGNORE_SAMPLES_AT_DATES, MRI_ROOTDIR, MRI_IMG_DIR, DWMRI_IMG_DIR
+from scripts.utils.constants import IGNORE_SAMPLES_AT_DATES, MRI_ROOTDIR, MRI_IMG_DIR, DWMRI_IMG_DIR, T2STAR_DIRS
 from scripts.utils.minor_utils import min_max_norm
 
 class DICOMImageExtractor(object):
@@ -24,28 +24,9 @@ class DICOMImageExtractor(object):
         Saves one npy file per organoid in folder self.outdir_mri
         """
         os.makedirs(self.outdir_mri, exist_ok=True)
-        #TODO also try it the same way as for DW-MRI extraction (without hardcoding) 
-        t2_star_dirs = ['1-3/1805/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220518__E13_P1',
-                    '1-3/2305/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220523__E13_P1',
-                    '1-3/3005/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220530__E6_P1',
-                    '1-3/0206/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220602__E26_P1',
-                    '1-3/0906/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220609__E6_P1',
-                    '1-3/1506/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220615__E6_P1',
-                    '1-3/2206/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220622__E6_P1',
-                    '1-3/3006/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220630__E6_P1',
-                    '1-3/0707/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220707__E6_P1',
-                    '4-6/1805/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220518__E13_P1',
-                    '4-6/2305/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220523__E6_P1',
-                    '4-6/3005/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220530__E6_P1',
-                    '4-6/0206/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220602__E6_P1',
-                    '4-6/0906/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220609__E6_P1',
-                    '4-6/1506/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220615__E6_P1',
-                    '7-9/1805/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220518__E13_P1',
-                    '7-9/2305/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220523__E6_P1',
-                    '7-9/3005/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220530__E6_P1']
         # those EV are just filled with medium to ensure consistency between MRI runs (don't contain organoids)
 
-        for t2_star_dir in t2_star_dirs:
+        for t2_star_dir in T2STAR_DIRS:
             print('Processing t2star DICOM dir: ' + t2_star_dir)
             # extract organoid ids
             org_nrs = range(int(t2_star_dir[0]), int(t2_star_dir[2])+1)
