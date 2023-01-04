@@ -7,7 +7,7 @@ from collections import Counter
 import io
 from PIL import Image
 
-from scripts.utils.io_utils import get_organoid_locations, get_orig_imgs
+from scripts.utils.io_utils import get_masks, get_orig_imgs
 
 
 def plot_compactness(df, roc_auc_compactness, save_to=''):
@@ -77,7 +77,7 @@ def plot_examples_lq_hq_organoids(org_ids, compactnesses, org_locs_planes, save_
 
 def plot_organoid_growth_over_time():
     org_ids, org_sizes = [], []
-    gt = get_organoid_locations(kind='gt')
+    gt = get_masks(kind='gt_org_loc')
     for org_id, org_gt in gt.items():
         org_ids.append(org_id)
         c = Counter(org_gt.flatten())
