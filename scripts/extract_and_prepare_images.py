@@ -13,3 +13,5 @@ from scripts.utils.DataPreparerSegmentation import DataPreparerSegmentation
 dps = DataPreparerSegmentation()
 dps.create_h5files_organoid_seg()
 dps.create_loocv_splits_organoid_seg()
+dps.create_h5files_cyst_seg()
+dps.create_loocv_splits_local_cyst_seg()

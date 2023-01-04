@@ -5,7 +5,7 @@ import pandas as pd
 
 from scripts.utils.constants import CSV_ORG_OVERVIEW, CSV_GLOBAL_CYST_ANNOT
 from scripts.utils.minor_utils import make_mask_arr_visible
-from scripts.utils.io_utils import get_orig_imgs, get_organoid_locations
+from scripts.utils.io_utils import get_orig_imgs, get_masks
 
 class GlobalCystClassifier(object):
     def __init__(self):
@@ -99,7 +99,7 @@ def get_org_mean_and_compactness(imgs, org_loc, otsu, mult_255=True, only_org_me
 
 def get_compactness():
     imgs = get_orig_imgs(kind='mri')
-    gt = get_organoid_locations(kind='gt')
+    gt = get_masks(kind='gt_org_loc')
     otsu, _ = get_all_otsu_masks(imgs, gt)
 
     df = get_org_mean_and_compactness(imgs, 

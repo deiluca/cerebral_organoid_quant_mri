@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 from os.path import join as opj
 
-from scripts.utils.constants import MRI_IMG_DIR, DWMRI_IMG_DIR, MRI_ORG_LOC_GT_DIR, DWMRI_ORG_LOC_GT_DIR
+from scripts.utils.constants import MRI_IMG_DIR, DWMRI_IMG_DIR, MRI_ORG_LOC_GT_DIR, DWMRI_ORG_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR
 
 def get_orig_imgs(kind, seq=None):
     assert kind in ['mri', 'dwmri']
@@ -24,13 +24,16 @@ def get_orig_imgs(kind, seq=None):
     return imgs
 
 
-def get_organoid_locations(kind):
-    assert kind in ['gt', 'predicted', 'gt_dwmri']
-    if kind == 'gt':
+def get_masks(kind):
+    assert kind in ['gt_org_loc', 'gt_cyst_loc', 'predicted_org_loc', 'gt_org_loc_dwmri']
+    if kind == 'gt_org_loc':
         d = MRI_ORG_LOC_GT_DIR
         suffix = '.npy'
-    elif kind=='gt_dwmri':
+    elif kind=='gt_org_loc_dwmri':
         d = DWMRI_ORG_LOC_GT_DIR
+        suffix = '.npy'
+    elif kind=='gt_cyst_loc':
+        d = MRI_CYST_LOC_GT_DIR
         suffix = '.npy'
     else:
         d = 'mri_paper_results/organoid_segmentation/checkpoint_files_3DUNet/all_predictions_on_test_sets'
