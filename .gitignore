@@ -1,3 +1,5 @@
 data/
 results/local_cyst_segmentation/checkpoint*
 results/organoid_segmentation/checkpoint*
+.vscode
+*.pyc

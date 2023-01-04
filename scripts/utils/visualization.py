@@ -1,33 +1,9 @@
-
-from os.path import dirname, join
-from pprint import pprint
-import os
-import pydicom
 from PIL import Image
 import numpy as np
-import ipyplot
 import matplotlib.pyplot as plt
-from skimage import data
-from skimage.filters import threshold_otsu, threshold_multiotsu
 import pandas as pd
-from sklearn.model_selection import KFold
-import collections, numpy
-import h5py
 import seaborn as sns
-import SimpleITK as sitk
-from scipy.stats import ttest_ind
-from scipy import stats
-import statsmodels.api as sm
-import pylab as py
-from sklearn.preprocessing import minmax_scale
-from os.path import join as opj
 from collections import Counter
-from sklearn.metrics import roc_auc_score, f1_score, accuracy_score
-from sklearn.metrics import roc_curve, auc
-from sklearn.metrics import average_precision_score, precision_recall_curve
-from sklearn.metrics import auc, plot_precision_recall_curve
-from sklearn.model_selection import train_test_split
-import shutil
 import io
 from PIL import Image
 

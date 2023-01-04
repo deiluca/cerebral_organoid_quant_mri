@@ -1,3 +1,5 @@
+WORKING_DIR = '/home/ws/oc9627/cerebral_organoid_quant_mri'
+
 MRI_ROOTDIR = 'data/MRI_raw_data'
 MRI_IMG_DIR='data/T2_star_images/'
 DWMRI_IMG_DIR='data/DW-MRI_images'
