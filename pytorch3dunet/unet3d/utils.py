@@ -1,3 +1,5 @@
+# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+
 import importlib
 import logging
 import os

@@ -1,5 +1,6 @@
-from functools import partial
+# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
 
+from functools import partial
 import torch
 from torch import nn as nn
 from torch.nn import functional as F

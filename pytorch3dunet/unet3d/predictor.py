@@ -1,3 +1,5 @@
+# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+
 import os
 
 import h5py

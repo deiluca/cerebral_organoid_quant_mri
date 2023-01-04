@@ -2,7 +2,11 @@
 import yaml
 from os.path import join as opj
 import os
+import sys
+sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')
 
+from scripts.utils.constants import WORKING_DIR, MRI_CYST_SEG_FILES_3DUNET
+os.chdir(WORKING_DIR)
 def create_conf_files(create_yml=False):
     with open("../pytorch3dunet/resources/general_train_config.yml", "r") as stream:
         try:
@@ -10,15 +14,15 @@ def create_conf_files(create_yml=False):
         except yaml.YAMLError as exc:
             print(exc)
 
-    config_dir = '/home/ws/oc9627/pytorch-3dunet/resources/3d_cyst_seg/nested_cv_loo_34annot'
+    config_dir = 'pytorch3dunet/resources/3d_cyst_seg/train'
     os.makedirs(config_dir, exist_ok=True)
     print(ref_config)
     config_locs = []
     for org in range(1, 10):
-        ref_config['trainer']['checkpoint_dir'] = f'CHECKPOINT_DIRS_cyst_seg_34annot/org{org}'
+        ref_config['trainer']['checkpoint_dir'] = f'results/local_cyst_segmentation/checkpoint_dirs/org{org}'
         ref_config['trainer']['max_num_iterations'] = 5000
-        ref_config['loaders']['train']['file_paths'] = [f'/home/ws/oc9627/Dokumente/MRT_segmentations_cysts/annotations_15_12_2022_34_orgs_with_cyst_sizes_greater_1000/h5_files/LOO_org{org}/train']
-        ref_config['loaders']['val']['file_paths'] = [f'/home/ws/oc9627/Dokumente/MRT_segmentations_cysts/annotations_15_12_2022_34_orgs_with_cyst_sizes_greater_1000/h5_files/LOO_org{org}//val']
+        ref_config['loaders']['train']['file_paths'] = [f'{MRI_CYST_SEG_FILES_3DUNET}/LOO_org{org}/train']
+        ref_config['loaders']['val']['file_paths'] = [f'{MRI_CYST_SEG_FILES_3DUNET}/LOO_org{org}//val']
         config_loc = opj(config_dir, f'LOO_org{org}.yml')
 
         config_locs.append(config_loc)

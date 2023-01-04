@@ -1,3 +1,6 @@
+# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+
+
 import torch
 import torch.nn.functional as F
 from torch import nn as nn

@@ -1,3 +1,5 @@
+# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+
 import numpy as np
 from skimage.metrics import contingency_table
 

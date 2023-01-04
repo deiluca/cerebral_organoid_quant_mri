@@ -7,7 +7,7 @@ This repository quantifies cerebral organoids in MRI. It especially implements t
 - global cyst classification
 - local cyst segmentation
 
-For the implementation of the 3D U-Net the full credit goes to https://github.com/wolny/pytorch-3dunet
+For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (https://github.com/wolny/pytorch-3dunet).
 
 ## Prerequisites
 

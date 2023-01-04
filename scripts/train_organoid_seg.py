@@ -3,7 +3,7 @@ import yaml
 from os.path import join as opj
 import os
 import sys
-sys.path.insert(0,'/home/ws/oc9627/cerebral_organoid_quant_mri')
+sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')
 
 from scripts.utils.constants import WORKING_DIR, MRI_ORG_SEG_FILES_3DUNET
 os.chdir(WORKING_DIR)
@@ -19,7 +19,7 @@ def create_conf_files(create_yml=False):
     os.makedirs(config_dir, exist_ok=True)
     config_locs = []
     for i in range(1, 10):
-        ref_config['trainer']['checkpoint_dir'] = opj(WORKING_DIR, f'results/organoid_segmentation/checkpoint_dirs/org{i}')
+        ref_config['trainer']['checkpoint_dir'] = f'results/organoid_segmentation/checkpoint_dirs/org{i}'
         ref_config['trainer']['max_num_iterations'] = 2000
         ref_config['loaders']['train']['file_paths'] = [f'{MRI_ORG_SEG_FILES_3DUNET}/LOO_org{i}/train']
         ref_config['loaders']['val']['file_paths'] = [f'{MRI_ORG_SEG_FILES_3DUNET}/LOO_org{i}/val']

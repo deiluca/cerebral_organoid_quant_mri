@@ -1,3 +1,6 @@
+# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+
+
 import torch.nn as nn
 
 from pytorch3dunet.unet3d.buildingblocks import DoubleConv, ExtResNetBlock, create_encoders, \
