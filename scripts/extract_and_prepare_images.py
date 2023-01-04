@@ -1,8 +1,7 @@
-from scripts.utils.DataPreparerSegmentation import DataPreparerSegmentation
-from scripts.utils.DICOMImageExtractor import DICOMImageExtractor
 import sys
 sys.path.append('/home/ws/oc9627/cerebral_organoid_quant_mri')
-
+from scripts.utils.DataPreparerSegmentation import DataPreparerSegmentation  # noqa
+from scripts.utils.DICOMImageExtractor import DICOMImageExtractor  # noqa
 
 # extract single images from DICOM images
 # die = DICOMImageExtractor()

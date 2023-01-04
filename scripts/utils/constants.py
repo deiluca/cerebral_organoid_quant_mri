@@ -13,6 +13,9 @@ CSV_GLOBAL_CYST_ANNOT = 'data/annotations/global_cyst_classification_annotations
 # files for segmentation
 MRI_ORG_SEG_FILES_3DUNET = 'data/organoid_seg_files_3D-U-Net'
 MRI_CYST_SEG_FILES_3DUNET = 'data/cyst_seg_files_3D-U-Net'
+MRI_ORG_SEG_SPLITS = 'data/splits_org_seg.csv'
+MRI_CYST_SEG_SPLITS = 'data/splits_local_cyst_seg.csv'
+
 
 CSV_ORG_OVERVIEW = 'data/data_overview.csv'
 
