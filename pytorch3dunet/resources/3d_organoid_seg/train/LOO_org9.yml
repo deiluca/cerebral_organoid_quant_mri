@@ -76,7 +76,7 @@ optimizer:
   learning_rate: 0.001
   weight_decay: 1.0e-07
 trainer:
-  checkpoint_dir: /home/ws/oc9627/cerebral_organoid_quant_mri/results/organoid_segmentation/checkpoint_dirs/org9
+  checkpoint_dir: results/organoid_segmentation/checkpoint_dirs/org9
   eval_score_higher_is_better: true
   log_after_iters: 1
   max_num_epochs: 1000

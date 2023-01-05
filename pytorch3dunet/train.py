@@ -4,7 +4,7 @@ import random
 
 import torch
 import sys
-sys.path.insert(0,'/home/ws/oc9627/cerebral_organoid_quant_mri')
+sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')  # noqa
 
 from pytorch3dunet.unet3d.config import load_config
 from pytorch3dunet.unet3d.trainer import create_trainer
@@ -21,7 +21,8 @@ def main():
     manual_seed = config.get('manual_seed', None)
     if manual_seed is not None:
         logger.info(f'Seed the RNG for all devices with {manual_seed}')
-        logger.warning('Using CuDNN deterministic setting. This may slow down the training!')
+        logger.warning(
+            'Using CuDNN deterministic setting. This may slow down the training!')
         random.seed(manual_seed)
         torch.manual_seed(manual_seed)
         # see https://pytorch.org/docs/stable/notes/randomness.html

@@ -1,11 +1,11 @@
 # Cerebral organoid quantification in MRI
 
-This repository reproduces the results from the paper MRI
-
 This repository quantifies cerebral organoids in MRI. It especially implements three tasks:
-- organoid segmentation
-- global cyst classification
-- local cyst segmentation
+- Organoid segmentation
+- Global cyst classification
+- Local cyst segmentation
+
+These tasks are presented in the paper Cerebral organoid quantification in MRI.
 
 For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (https://github.com/wolny/pytorch-3dunet).
 
@@ -22,7 +22,7 @@ git clone https://github.com/deiluca/cerebral_organoid_quant_mri
 ```
 
 ```
-cd path_to_your_cloned_repository
+cd path_to_cloned_repository
 conda env create -f requirements.yml
 ```
 
@@ -44,10 +44,14 @@ conda activate co_quant_mri_ve
 
 ## Organoid segmentation
 
-1. train and test 3D U-Net. [can be skipped: results from previous run are located in results/organoid_segmentation)]
-2. inspect results using scripts/data_analysis.ipynb
+1. Train and test 3D U-Net. [can be skipped: results from previous run are located in results/organoid_segmentation]
+     ```
+     python scripts/train_organoid_seg.py
+     python scripts/test_organoid_seg.py
+     ```
+2. Inspect results using scripts/data_analysis.ipynb
 
-**Model performance**
+**Model performance** (Test Dice 0.92&#177;0.06 [mean&#177;SD])
 
 <img src="results/organoid_segmentation/plots/organoid_seg_performance.png"
      alt="Markdown Monster icon"
@@ -77,7 +81,7 @@ See scripts/data_analysis.ipynb
 1. train and test 3D U-Net. [can be skipped: results from previous run are located in results/local_cyst_segmentation]
 2. generate and inspect results using scripts/data_analysis.ipynb
 
-**Model performance**
+**Model performance** (Test Dice 0.63&#177;0.15 [mean&#177;SD])
 
 <img src='results/local_cyst_segmentation/plots/local_cyst_seg_performance.png'
      alt="Markdown Monster icon"

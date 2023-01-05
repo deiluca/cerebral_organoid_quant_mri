@@ -29,6 +29,13 @@ class SegmentationPerformanceExtractor(object):
         df = df.merge(pd.read_csv(CSV_ORG_OVERVIEW))
         self.df = df
 
+    def print_test_dice_mean_sd(self):
+        assert self.df is not None
+        mean = self.df.drop_duplicates().mean()['Test Dice']
+        sd = self.df.drop_duplicates().std()['Test Dice']
+        print(f'Test Dice {mean:.2f}'+u"\u00B1" +
+              f'{sd:.2f} (mean'+u"\u00B1"+'SD)')
+
     def get_dice_scores(self):
 
         all_pred = sorted([opj(self.pred_dir, x) for x in os.listdir(

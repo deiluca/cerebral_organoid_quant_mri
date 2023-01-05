@@ -6,8 +6,7 @@ import os
 import torch
 import torch.nn as nn
 import sys
-sys.path.insert(0,'/home/ws/oc9627/pytorch-3dunet')
-print(sys.path)
+sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')  # noqa
 from pytorch3dunet.datasets.utils import get_test_loaders
 from pytorch3dunet.unet3d import utils
 from pytorch3dunet.unet3d.config import load_config

@@ -1,15 +1,15 @@
-from scripts.utils.constants import WORKING_DIR, MRI_CYST_SEG_FILES_3DUNET
 import yaml
 from os.path import join as opj
 import os
 import sys
 sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')
+from scripts.utils.constants import WORKING_DIR, MRI_CYST_SEG_FILES_3DUNET  # noqa
 
 os.chdir(WORKING_DIR)
 
 
 def create_conf_files(create_yml=False):
-    with open("../pytorch3dunet/resources/general_train_config.yml", "r") as stream:
+    with open("pytorch3dunet/resources/general_train_config.yml", "r") as stream:
         try:
             ref_config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:

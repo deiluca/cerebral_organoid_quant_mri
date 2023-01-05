@@ -1,24 +1,30 @@
+import shutil
 import yaml
 from os.path import join as opj
 import os
+import sys
+sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')
+from scripts.utils.constants import WORKING_DIR, MRI_ORG_SEG_FILES_3DUNET  # noqa
+
+os.chdir(WORKING_DIR)
 
 
 def create_conf_files_test(create_yml=False):
-    with open("/home/ws/oc9627/pytorch-3dunet/resources/3d_organoid_seg/inference_all_samples_incl0707_new_model.yml", "r") as stream:
+    with open("pytorch3dunet/resources/general_test_config.yml", "r") as stream:
         try:
             ref_config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
 
-    config_dir = '/home/ws/oc9627/pytorch-3dunet/resources/3d_organoid_seg/nested_cv_loo_test'
+    config_dir = 'pytorch3dunet/resources/3d_organoid_seg/test'
     config_locs = []
 
     for i in range(1, 10):
-        ckp_dir = f'CHECKPOINT_DIR_ORGANOIDS_LOO_org_{i}'
+        ckp_dir = f'results/organoid_segmentation/checkpoint_dirs/org{i}'
         outdir = opj(ckp_dir, 'test_out_incl_raw_pred')
         ref_config['model_path'] = opj(ckp_dir, 'best_checkpoint.pytorch')
         ref_config['loaders']['test']['file_paths'] = [
-            f'/home/ws/oc9627/Dokumente/MRT_images_and_inferred_segmentations_corrected/h5files/LOO_org{i}/test']
+            f'{MRI_ORG_SEG_FILES_3DUNET}/LOO_org{i}/test']
         ref_config['loaders']['output_dir'] = outdir
 
         config_loc = opj(config_dir, f'LOO_org{i}.yml')
@@ -30,6 +36,16 @@ def create_conf_files_test(create_yml=False):
     return config_locs
 
 
+def move_test_files_to_common_dir():
+    outdir = 'results/organoid_segmentation/checkpoint_dirs/all_predictions_on_test_sets'
+    os.makedirs(outdir, exist_ok=True)
+    for i in range(1, 10):
+        ckp_dir = f'results/organoid_segmentation/checkpoint_dirs/org{i}/test_out_incl_raw_pred'
+        for f in os.listdir(ckp_dir):
+            if f.endswith('predictions.npy'):
+                shutil.copyfile(opj(ckp_dir, f), opj(outdir, f))
+
+
 def test_all_models(config_locs):
     for i, cl in enumerate(config_locs):
         print('Training with config:', cl)
@@ -37,6 +53,5 @@ def test_all_models(config_locs):
 
 
 config_locs = create_conf_files_test(create_yml=True)
-# config_locs = config_locs[:6]
-# print(config_locs)
 test_all_models(config_locs)
+move_test_files_to_common_dir()

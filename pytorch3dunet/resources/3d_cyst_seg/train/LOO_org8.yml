@@ -9,7 +9,7 @@ loaders:
   raw_internal_path: /raw
   train:
     file_paths:
-    - /home/ws/oc9627/Dokumente/MRT_segmentations_cysts/annotations_15_12_2022_34_orgs_with_cyst_sizes_greater_1000/h5_files/LOO_org8/train
+    - data/cyst_seg_files_3D-U-Net/LOO_org8/train
     slice_builder:
       name: FilterSliceBuilder
       patch_shape:
@@ -33,7 +33,7 @@ loaders:
         name: ToTensor
   val:
     file_paths:
-    - /home/ws/oc9627/Dokumente/MRT_segmentations_cysts/annotations_15_12_2022_34_orgs_with_cyst_sizes_greater_1000/h5_files/LOO_org8//val
+    - data/cyst_seg_files_3D-U-Net/LOO_org8//val
     slice_builder:
       name: FilterSliceBuilder
       patch_shape:
@@ -76,7 +76,7 @@ optimizer:
   learning_rate: 0.001
   weight_decay: 1.0e-07
 trainer:
-  checkpoint_dir: CHECKPOINT_DIRS_cyst_seg_34annot/org8
+  checkpoint_dir: results/local_cyst_segmentation/checkpoint_dirs/org8
   eval_score_higher_is_better: true
   log_after_iters: 1
   max_num_epochs: 1000

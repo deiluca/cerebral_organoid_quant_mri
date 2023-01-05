@@ -1,5 +1,4 @@
-# Download test data from: https://osf.io/8jz7e/
-model_path: /home/ws/oc9627/pytorch-3dunet/CHECKPOINT_DIR_ORGANOIDS_all_annot_28_07_22_incl_0630_org1_2/best_checkpoint.pytorch
+model_path: /path/to/model/checkpoint
 model:
   name: UNet3D
   # number of input channels to the model
@@ -29,7 +28,7 @@ loaders:
   # test loaders configuration
   test:
     file_paths:
-      - /home/ws/oc9627/Dokumente/MRT_segmentations_UNet-3D/for_inference_all_samples
+      - /path/to/test/samples
 
     slice_builder:
       name: SliceBuilder
