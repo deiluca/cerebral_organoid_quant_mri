@@ -193,10 +193,10 @@ class SegmentationOverlayVisualizer(object):
     def add_overlay_labels(self, img):
 
         tim = Image.new('RGBA', (img.height, img.width), (0, 0, 0, 0))
-        label_size = {'Prediction': 3.2, 'GT': 1, 'Image': 2}
+        label_size = {'Prediction': 5, 'GT': 1, 'Image': 2}
         for i, text in enumerate(['Prediction', 'GT', 'Image']):
             dr = ImageDraw.Draw(tim)
-            ft = ImageFont.truetype('scripts/utils/arial.ttf', 25)
+            ft = ImageFont.truetype('scripts/utils/arial.ttf', 35)
             xpos = int((img.height/3)*(i+1) - (img.height/3) /
                        2 - label_size[text]*10)
             dr.text((xpos, 20), text, fill=(0, 0, 0), font=ft)
