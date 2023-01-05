@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 from os.path import join as opj
 
-from scripts.utils.constants import MRI_IMG_DIR, DWMRI_IMG_DIR, MRI_ORG_LOC_GT_DIR, DWMRI_ORG_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR
+from scripts.utils.constants import MRI_IMG_DIR, DWMRI_IMG_DIR, MRI_ORG_LOC_GT_DIR, DWMRI_ORG_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR_ALL45
 
 
 def get_orig_imgs(kind, seq=None):
@@ -26,7 +26,7 @@ def get_orig_imgs(kind, seq=None):
 
 
 def get_masks(kind):
-    assert kind in ['gt_org_loc', 'gt_cyst_loc',
+    assert kind in ['gt_org_loc', 'gt_cyst_loc', 'gt_cyst_loc_all45',
                     'predicted_org_loc', 'gt_org_loc_dwmri']
     if kind == 'gt_org_loc':
         d = MRI_ORG_LOC_GT_DIR
@@ -37,11 +37,16 @@ def get_masks(kind):
     elif kind == 'gt_cyst_loc':
         d = MRI_CYST_LOC_GT_DIR
         suffix = '.npy'
+    elif kind == 'gt_cyst_loc_all45':
+        d = MRI_CYST_LOC_GT_DIR_ALL45
+        suffix = '.npy'
     else:
         d = 'mri_paper_results/organoid_segmentation/checkpoint_files_3DUNet/all_predictions_on_test_sets'
         suffix = '_predictions.npy'
     all_gt = dict()
     for f in os.listdir(d):
+        if not f.endswith('.npy'):
+            continue
         filename = os.path.join(d, f)
         org = f.replace(suffix, '')
         gt_file = opj(d, f'{org}{suffix}')

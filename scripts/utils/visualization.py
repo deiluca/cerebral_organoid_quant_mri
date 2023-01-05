@@ -8,6 +8,8 @@ import io
 from PIL import Image
 
 from scripts.utils.io_utils import get_masks, get_orig_imgs
+from scripts.utils.dwmri import get_metrics_global_cyst_seg_dw_mri
+from scripts.utils.global_cyst_classification import get_compactness
 
 
 def plot_compactness(df, roc_auc_compactness, save_to=''):
@@ -21,6 +23,50 @@ def plot_compactness(df, roc_auc_compactness, save_to=''):
     sns.despine()
     plt.tight_layout()
 
+    if save_to != '':
+        plt.savefig(save_to, dpi=300)
+
+
+def plot_correlation_compactness_cysticity(save_to):
+
+    df = get_compactness()
+
+    # calculate cysticity
+    cyst_masks = get_masks(kind='gt_cyst_loc_all45')
+    org_ids, cyst_sizes = [], []
+    for k, v in cyst_masks.items():
+        c = Counter(v.flatten())[1]
+        org_ids.append(k)
+        cyst_sizes.append(c)
+    x = pd.DataFrame.from_dict({'org_id': org_ids, 'cyst_size': cyst_sizes})
+    df = df.merge(x)
+
+    # plot
+    plt.figure(figsize=(4, 4), facecolor='white')
+    sns.scatterplot(data=df, x='cyst_size', y='compactness')
+    pearson = df['cyst_size'].corr(df['compactness'], method='pearson')
+    plt.title(f'Correlation: {pearson:.2f} (Pearson)')
+    plt.grid()
+    sns.despine()
+    plt.ylabel('Compactness')
+    plt.xlabel('Cyst size in voxels')
+
+    plt.tight_layout()
+    if save_to != '':
+        plt.savefig(save_to, dpi=300)
+
+
+def plot_trace_lq_hq_mean_org_int(save_to=''):
+    _, dfs_dwmri = get_metrics_global_cyst_seg_dw_mri()
+    plt.figure(figsize=(4, 3), facecolor='white')
+    sns.swarmplot(
+        data=dfs_dwmri[1], y='mean_organoid_intensity', x='Organoid quality')
+    plt.ylabel('$\mu_{int}$')
+    plt.xlabel('Organoid quality', fontsize=11)
+    plt.grid()
+    plt.title(r'Sequence Trace (p-value $1.8x10^{-8}$)', fontsize=11)
+    sns.despine()
+    plt.tight_layout()
     if save_to != '':
         plt.savefig(save_to, dpi=300)
 

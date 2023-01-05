@@ -7,6 +7,7 @@ DWMRI_IMG_DIR = 'data/DW-MRI_images'
 # annotations
 MRI_ORG_LOC_GT_DIR = 'data/annotations/MRI_ground_truth_organoid_locations'
 MRI_CYST_LOC_GT_DIR = 'data/annotations/MRI_ground_truth_cyst_locations/cyst_size_greater_1000'
+MRI_CYST_LOC_GT_DIR_ALL45 = 'data/annotations/MRI_ground_truth_cyst_locations'
 DWMRI_ORG_LOC_GT_DIR = 'data/annotations/DW-MRI_ground_truth_organoid_locations'
 CSV_GLOBAL_CYST_ANNOT = 'data/annotations/global_cyst_classification_annotations.csv'
 

@@ -20,16 +20,16 @@ For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (ht
 ```
 git clone https://github.com/deiluca/cerebral_organoid_quant_mri
 ```
-
+Install requirements
 ```
-cd path_to_cloned_repository
+cd path/to/cerebral_organoid_quant_mri
 conda env create -f requirements.yml
 ```
 
-Activate the co_quant_mri_ve:
+Activate the conda environment:
 
 ```
-conda activate co_quant_mri_ve
+conda activate co_quant_mri
 ```
 
 
@@ -49,7 +49,7 @@ conda activate co_quant_mri_ve
      python scripts/train_organoid_seg.py
      python scripts/test_organoid_seg.py
      ```
-2. Inspect results using scripts/data_analysis.ipynb
+2. Extract and inspect results using [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 
 **Model performance** (Test Dice 0.92&#177;0.06 [mean&#177;SD])
 
@@ -64,7 +64,8 @@ conda activate co_quant_mri_ve
      style="float: center; margin-right: 10px; width:500px" />
 
 ## Global cyst classification
-See scripts/data_analysis.ipynb
+See [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
+
 
 **Performance of *Compactness* and examples of low- and high-quality organoids**
 
@@ -75,11 +76,19 @@ See scripts/data_analysis.ipynb
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; height:300px" />
 
+**DW-MRI: Higher diffusion of low-quality organoids**
 
+<img src='results/global_cyst_classification/trace_mean_org_intensities.png'
+     alt="Markdown Monster icon"
+     style="float: center; margin-right: 10px; height:300px" />
 
 ## Local cyst segmentation
-1. train and test 3D U-Net. [can be skipped: results from previous run are located in results/local_cyst_segmentation]
-2. generate and inspect results using scripts/data_analysis.ipynb
+1. Train and test 3D U-Net. [can be skipped: results from previous run are located in results/local_cyst_segmentation]
+     ```
+     python scripts/train_local_cyst_seg.py
+     python scripts/test_local_cyst_seg.py
+     ```
+2. Extract and inspect results using [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 
 **Model performance** (Test Dice 0.63&#177;0.15 [mean&#177;SD])
 
@@ -92,5 +101,13 @@ See scripts/data_analysis.ipynb
 <img src='results/local_cyst_segmentation/plots/cyst_seg_overlay_org7_0530.png'
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
-     
-If you find this usefil, please consider citing our work:
+
+**Can compacntess predict cysticity?**
+
+Yes, high correlation. Extract and inspect results using [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
+
+<img src='results/local_cyst_segmentation/plots/correlation_compactness_cysticity.png'
+     alt="Markdown Monster icon"
+     style="float: center; margin-right: 10px; width:500px" />
+
+If you find this useful, please consider citing our work:
