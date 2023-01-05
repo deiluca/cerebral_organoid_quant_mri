@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from os.path import join as opj
 import io
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 from scripts.utils.metrics import dice
 
@@ -29,7 +29,8 @@ class SegmentationOverlayVisualizer(object):
                  set_title=False,
                  mult_neg=True,
                  rot_img=0,
-                 save_to=''):
+                 save_to='',
+                 add_labels=True):
 
         assert planes in ['coronal', 'axial', 'sagittal']
 
@@ -53,6 +54,7 @@ class SegmentationOverlayVisualizer(object):
         self.mult_neg = mult_neg
         self.rot_img = rot_img
         self.save_to = save_to
+        self.add_labels = add_labels
 
     def get_green_binary_colors(self, x):
         x = x[:, :, np.newaxis]
@@ -113,7 +115,7 @@ class SegmentationOverlayVisualizer(object):
             indices_dices = {
                 k: v for k, v in indices_dices.items() if k in self.keep_planes}
         fig, axs = plt.subplots(len(indices_dices), nr_rows, figsize=(
-            self.size_per_org_x*nr_rows, self.size_per_org_y*len(indices_dices)))
+            self.size_per_org_x*nr_rows, self.size_per_org_y*len(indices_dices)), facecolor='white')
         plane_numbers = []
     #     print(len(indices_dices), indices_dices)
         for j, i in enumerate(sorted(list(indices_dices.keys()), reverse=True)):
@@ -182,6 +184,24 @@ class SegmentationOverlayVisualizer(object):
             im.save(img_buf2, format='png')
             img_buf = img_buf2
         im = Image.open(img_buf)
+        if self.add_labels:
+            im = self.add_overlay_labels(im)
         if self.save_to != '':
             im.save(self.save_to)
         return im
+
+    def add_overlay_labels(self, img):
+
+        tim = Image.new('RGBA', (img.height, img.width), (0, 0, 0, 0))
+        label_size = {'Prediction': 3.2, 'GT': 1, 'Image': 2}
+        for i, text in enumerate(['Prediction', 'GT', 'Image']):
+            dr = ImageDraw.Draw(tim)
+            ft = ImageFont.truetype('scripts/utils/arial.ttf', 25)
+            xpos = int((img.height/3)*(i+1) - (img.height/3) /
+                       2 - label_size[text]*10)
+            dr.text((xpos, 20), text, fill=(0, 0, 0), font=ft)
+
+        tim = tim.rotate(90,  expand=1)
+
+        img.paste(tim, (0, 0), tim)
+        return img
