@@ -1,10 +1,10 @@
 loaders:
   batch_size: 1
   num_workers: 8
-  output_dir: CHECKPOINT_DIRS_cyst_seg_34annot/org7/test_out_incl_raw_pred
+  output_dir: results/local_cyst_segmentation/checkpoint_dirs/org7/test_out_incl_raw_pred
   test:
     file_paths:
-    - /home/ws/oc9627/Dokumente/MRT_segmentations_cysts/annotations_15_12_2022_34_orgs_with_cyst_sizes_greater_1000/h5_files/LOO_org7/test
+    - data/cyst_seg_files_3D-U-Net/LOO_org7/test
     slice_builder:
       name: SliceBuilder
       patch_shape:
@@ -28,6 +28,6 @@ model:
   name: UNet3D
   num_groups: 8
   out_channels: 1
-model_path: CHECKPOINT_DIRS_cyst_seg_34annot/org7/best_checkpoint.pytorch
+model_path: results/local_cyst_segmentation/checkpoint_dirs/org7/best_checkpoint.pytorch
 predictor:
   name: StandardPredictor
