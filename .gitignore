@@ -3,3 +3,5 @@ results/local_cyst_segmentation/checkpoint*
 results/organoid_segmentation/checkpoint*
 .vscode
 *.pyc
+__pycache__
+.ipynb_checkpoints
