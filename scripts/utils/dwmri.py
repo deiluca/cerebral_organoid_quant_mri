@@ -3,6 +3,7 @@ from scripts.utils.io_utils import get_orig_imgs, get_masks
 from scripts.utils.constants import DWMRI_SEQUENCES, CSV_GLOBAL_CYST_ANNOT
 from scripts.utils.metrics import calculate_roc_auc, calculate_p_val_test
 from scripts.utils.global_cyst_classification import get_org_mean_and_compactness
+from statsmodels.stats.multitest import multipletests
 
 
 def get_metrics_global_cyst_seg_dw_mri():
@@ -29,4 +30,8 @@ def get_metrics_global_cyst_seg_dw_mri():
                                          roc_auc_col: roc_aucs,
                                          p_val_col: p_vals},
                                         ).sort_values(roc_auc_col, ascending=False)
+    p_vals = df_metrics[p_val_col].tolist()
+    p_vals = [float(x) for x in p_vals]
+    _, p_vals_corr, _, _ = multipletests(p_vals, method='holm-sidak')
+    df_metrics['P-value corr'] = p_vals_corr
     return df_metrics, dfs

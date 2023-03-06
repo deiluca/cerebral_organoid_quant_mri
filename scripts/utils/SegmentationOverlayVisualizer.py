@@ -30,9 +30,11 @@ class SegmentationOverlayVisualizer(object):
                  mult_neg=True,
                  rot_img=0,
                  save_to='',
-                 add_labels=True):
+                 add_labels=True,
+                 pred_color='green'):
 
         assert planes in ['coronal', 'axial', 'sagittal']
+        assert pred_color in ['orange', 'green']
 
         gt_file = opj(gt_dir, f'{org_id}.npy')
         pred_file = opj(pred_dir, f'{org_id}_predictions.npy')
@@ -55,11 +57,18 @@ class SegmentationOverlayVisualizer(object):
         self.rot_img = rot_img
         self.save_to = save_to
         self.add_labels = add_labels
+        self.pred_color = pred_color
 
     def get_green_binary_colors(self, x):
         x = x[:, :, np.newaxis]
         x = np.where(x == 0.0, [1.0, 1.0, 1.0, 0.0], x)
         x = np.where(x == 1.0, [60/255, 179/255, 113/255, 0.6], x)
+        return x
+
+    def get_orange_binary_colors(self, x):
+        x = x[:, :, np.newaxis]
+        x = np.where(x == 0.0, [1.0, 1.0, 1.0, 0.0], x)
+        x = np.where(x == 1.0, [245/255, 167/255, 66/255, 0.6], x)
         return x
 
     def get_indices_pred_gt_greater0(self):
@@ -146,10 +155,10 @@ class SegmentationOverlayVisualizer(object):
                     img_i*-1 if self.mult_neg else img_i, cmap='Greys')
             else:
                 if self.planes == 'coronal':
-                    img_i = self.orig_imgs[self.org_id][ol[2]                                                        :ol[3], ol[0]:ol[1], i]
-                elif self.planes == 'sagittal':
                     img_i = self.orig_imgs[self.org_id][ol[2]
-                        :ol[3], i, ol[0]:ol[1]]
+                        :ol[3], ol[0]:ol[1], i]
+                elif self.planes == 'sagittal':
+                    img_i = self.orig_imgs[self.org_id][ol[2]:ol[3], i, ol[0]:ol[1]]
                 else:
                     img_i = self.orig_imgs[self.org_id][i,
                                                         ol[2]:ol[3], ol[0]:ol[1]]
@@ -163,8 +172,12 @@ class SegmentationOverlayVisualizer(object):
 
             axs[j, 1].imshow(self.get_green_binary_colors(
                 gt_i), cmap='Set2', alpha=0.5)
-            axs[j, 2].imshow(self.get_green_binary_colors(
-                pred_i), cmap='Set2', alpha=0.5)
+            if self.pred_color == 'green':
+                axs[j, 2].imshow(self.get_green_binary_colors(
+                    pred_i), cmap='Set2', alpha=0.5)
+            else:
+                axs[j, 2].imshow(self.get_orange_binary_colors(
+                    pred_i), cmap='Set2', alpha=0.5)
             axs[j, 0].axis('off')
             axs[j, 1].axis('off')
             axs[j, 2].axis('off')

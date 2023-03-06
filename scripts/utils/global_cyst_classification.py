@@ -104,10 +104,10 @@ def get_org_mean_and_compactness(imgs, org_loc, otsu, mult_255=True, only_org_me
     return df
 
 
-def get_compactness():
+def get_compactness(drop_last=True):
     imgs = get_orig_imgs(kind='mri')
     gt = get_masks(kind='gt_org_loc')
-    otsu, _ = get_all_otsu_masks(imgs, gt)
+    otsu, _ = get_all_otsu_masks(imgs, gt, drop_last=drop_last)
 
     df = get_org_mean_and_compactness(imgs,
                                       org_loc=gt,

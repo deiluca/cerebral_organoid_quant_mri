@@ -20,7 +20,7 @@ def create_conf_files_test(create_yml=False):
     os.makedirs(config_dir, exist_ok=True)
     config_locs = []
 
-    for org in range(1, 10):
+    for org in range(1, 9):
         ckp_dir = f'results/local_cyst_segmentation/checkpoint_dirs/org{org}'
         outdir = opj(ckp_dir, 'test_out_incl_raw_pred')
         ref_config['model_path'] = opj(ckp_dir, 'best_checkpoint.pytorch')
@@ -40,7 +40,7 @@ def create_conf_files_test(create_yml=False):
 def move_test_files_to_common_dir():
     outdir = 'results/local_cyst_segmentation/checkpoint_dirs/all_predictions_on_test_sets'
     os.makedirs(outdir, exist_ok=True)
-    for i in range(1, 10):
+    for i in range(1, 9):
         ckp_dir = f'results/local_cyst_segmentation/checkpoint_dirs/org{i}/test_out_incl_raw_pred'
         for f in os.listdir(ckp_dir):
             if f.endswith('predictions.npy'):

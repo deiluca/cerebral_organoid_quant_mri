@@ -27,10 +27,7 @@ def plot_compactness(df, roc_auc_compactness, save_to=''):
         plt.savefig(save_to, dpi=300)
 
 
-def plot_correlation_compactness_cysticity(save_to):
-
-    df = get_compactness()
-
+def get_df_cyst_sizes():
     # calculate cysticity
     cyst_masks = get_masks(kind='gt_cyst_loc_all45')
     org_ids, cyst_sizes = [], []
@@ -39,6 +36,14 @@ def plot_correlation_compactness_cysticity(save_to):
         org_ids.append(k)
         cyst_sizes.append(c)
     x = pd.DataFrame.from_dict({'org_id': org_ids, 'cyst_size': cyst_sizes})
+    return x
+
+
+def plot_correlation_compactness_cysticity(save_to):
+
+    df = get_compactness()
+    x = get_df_cyst_sizes()
+
     df = df.merge(x)
 
     # plot
@@ -56,15 +61,23 @@ def plot_correlation_compactness_cysticity(save_to):
         plt.savefig(save_to, dpi=300)
 
 
-def plot_trace_lq_hq_mean_org_int(save_to=''):
+def plot_trace_lq_hq_mean_org_int(save_to='', norm_by_max=True):
     _, dfs_dwmri = get_metrics_global_cyst_seg_dw_mri()
+    df_trace = dfs_dwmri[1]
+    trace_max_intensity = 32766
+    df_trace['mean_org_intensity_norm'] = df_trace['mean_organoid_intensity'] / \
+        trace_max_intensity
     plt.figure(figsize=(4, 3), facecolor='white')
-    sns.swarmplot(
-        data=dfs_dwmri[1], y='mean_organoid_intensity', x='Organoid quality')
+    if norm_by_max:
+        sns.swarmplot(
+            data=dfs_dwmri[1].sort_values('Organoid quality', ascending=True), y='mean_org_intensity_norm', x='Organoid quality')
+    else:
+        sns.swarmplot(
+            data=dfs_dwmri[1].sort_values('Organoid quality', ascending=True), y='mean_organoid_intensity', x='Organoid quality')
     plt.ylabel('$\mu_{int}$')
     plt.xlabel('Organoid quality', fontsize=11)
     plt.grid()
-    plt.title(r'Sequence Trace (p-value $1.8x10^{-8}$)', fontsize=11)
+    plt.title(r'Sequence Trace (P=$4x10^{-7}$)', fontsize=11)
     sns.despine()
     plt.tight_layout()
     if save_to != '':
