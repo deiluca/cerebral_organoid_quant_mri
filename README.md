@@ -2,7 +2,7 @@
 
 This repository quantifies cerebral organoids in MRI. It especially implements three tasks:
 - Organoid segmentation
-- Global cyst classification
+- Global cysticity classification
 - Local cyst segmentation
 
 These tasks are presented in the paper Cerebral organoid quantification in MRI.
@@ -11,10 +11,8 @@ For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (ht
 
 ## Prerequisites
 
-* Operating system: Windows (tested on Windows 10) or Linux (tested on Ubuntu 18.04) **Adapt**
+* Operating system: Windows or Linux (tested on Ubuntu 18.04) **Adapt**
 * [Anaconda Distribution](https://www.anaconda.com/distribution/#download-section) **Adapt**
-* For GPU use: a CUDA capable GPU **Adapt**
-* Minimum / recommended RAM/VRAM: 8 GiB / 16 GiB **Adapt**
 
 ## Installation
 ```
@@ -59,11 +57,11 @@ conda activate co_quant_mri
 
 **Example of segmentation performance (org7_0530)**
 
-<img src='results/organoid_segmentation/plots/organoid_seg_overlay_org5_0530.png'
+<img src='results/organoid_segmentation/plots/organoid_seg_overlay_org5_0530_pred-orange.png'
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
 
-## Global cyst classification
+## Global cysticity classification
 See [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 
 
@@ -98,7 +96,7 @@ See [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 
 **Example of segmentation performance (org7_0530)**
 
-<img src='results/local_cyst_segmentation/plots/cyst_seg_overlay_org7_0530.png'
+<img src='results/local_cyst_segmentation/plots/cyst_seg_overlay_org7_0530_pred-orange.png'
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
 
