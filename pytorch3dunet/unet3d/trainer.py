@@ -1,4 +1,16 @@
-# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+# MIT License
+
+# Copyright (c) 2018 Adrian Wolny (https://github.com/wolny/pytorch-3dunet)
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 
 import os
 
@@ -31,7 +43,8 @@ def create_trainer(config):
     model = model.to(device)
 
     # Log the number of learnable parameters
-    logger.info(f'Number of learnable params {get_number_of_learnable_parameters(model)}')
+    logger.info(
+        f'Number of learnable params {get_number_of_learnable_parameters(model)}')
 
     # Create loss criterion
     loss_criterion = get_loss_criterion(config)
@@ -45,11 +58,13 @@ def create_trainer(config):
     optimizer = create_optimizer(config['optimizer'], model)
 
     # Create learning rate adjustment strategy
-    lr_scheduler = create_lr_scheduler(config.get('lr_scheduler', None), optimizer)
+    lr_scheduler = create_lr_scheduler(
+        config.get('lr_scheduler', None), optimizer)
 
     trainer_config = config['trainer']
     # Create tensorboard formatter
-    tensorboard_formatter = get_tensorboard_formatter(trainer_config.pop('tensorboard_formatter', None))
+    tensorboard_formatter = get_tensorboard_formatter(
+        trainer_config.pop('tensorboard_formatter', None))
     # Create trainer
     resume = trainer_config.pop('resume', None)
     pre_trained = trainer_config.pop('pre_trained', None)
@@ -124,7 +139,8 @@ class UNet3DTrainer:
         self.eval_score_higher_is_better = eval_score_higher_is_better
 
         logger.info(model)
-        logger.info(f'eval_score_higher_is_better: {eval_score_higher_is_better}')
+        logger.info(
+            f'eval_score_higher_is_better: {eval_score_higher_is_better}')
 
         # initialize the best_eval_score
         if eval_score_higher_is_better:
@@ -132,7 +148,8 @@ class UNet3DTrainer:
         else:
             self.best_eval_score = float('+inf')
 
-        self.writer = SummaryWriter(log_dir=os.path.join(checkpoint_dir, 'logs'))
+        self.writer = SummaryWriter(
+            log_dir=os.path.join(checkpoint_dir, 'logs'))
 
         assert tensorboard_formatter is not None, 'TensorboardFormatter must be provided'
         self.tensorboard_formatter = tensorboard_formatter
@@ -164,11 +181,13 @@ class UNet3DTrainer:
             should_terminate = self.train()
 
             if should_terminate:
-                logger.info('Stopping criterion is satisfied. Finishing training')
+                logger.info(
+                    'Stopping criterion is satisfied. Finishing training')
                 return
 
             self.num_epochs += 1
-        logger.info(f"Reached maximum number of epochs: {self.max_num_epochs}. Finishing training...")
+        logger.info(
+            f"Reached maximum number of epochs: {self.max_num_epochs}. Finishing training...")
 
     def train(self):
         """Trains the model for 1 epoch.
@@ -224,12 +243,14 @@ class UNet3DTrainer:
                     sig = nn.Sigmoid()
                     output_sig = sig(output)
                     eval_score = self.eval_criterion(output_sig, target)
-                    train_eval_scores.update(eval_score.item(), self._batch_size(input))
+                    train_eval_scores.update(
+                        eval_score.item(), self._batch_size(input))
 
                 # log stats, params and images
                 logger.info(
                     f'Training stats. Loss: {train_losses.avg}. Evaluation score: {train_eval_scores.avg}')
-                self._log_stats('train', train_losses.avg, train_eval_scores.avg)
+                self._log_stats('train', train_losses.avg,
+                                train_eval_scores.avg)
                 self._log_params()
                 # self._log_images(input, target, output, 'train_')
 
@@ -246,7 +267,8 @@ class UNet3DTrainer:
         some predefined threshold (1e-6 in our case)
         """
         if self.max_num_iterations < self.num_iterations:
-            logger.info(f'Maximum number of iterations {self.max_num_iterations} exceeded.')
+            logger.info(
+                f'Maximum number of iterations {self.max_num_iterations} exceeded.')
             return True
 
         min_lr = 1e-6
@@ -283,7 +305,8 @@ class UNet3DTrainer:
                     break
 
             self._log_stats('val', val_losses.avg, val_scores.avg)
-            logger.info(f'Validation finished. Loss: {val_losses.avg}. Evaluation score: {val_scores.avg}')
+            logger.info(
+                f'Validation finished. Loss: {val_losses.avg}. Evaluation score: {val_scores.avg}')
             return val_scores.avg
 
     def _split_training_batch(self, t):
@@ -333,7 +356,8 @@ class UNet3DTrainer:
         else:
             state_dict = self.model.state_dict()
 
-        last_file_path = os.path.join(self.checkpoint_dir, 'last_checkpoint.pytorch')
+        last_file_path = os.path.join(
+            self.checkpoint_dir, 'last_checkpoint.pytorch')
         logger.info(f"Saving checkpoint to '{last_file_path}'")
 
         utils.save_checkpoint({
@@ -360,8 +384,10 @@ class UNet3DTrainer:
     def _log_params(self):
         logger.info('Logging model parameters and gradients')
         for name, value in self.model.named_parameters():
-            self.writer.add_histogram(name, value.data.cpu().numpy(), self.num_iterations)
-            self.writer.add_histogram(name + '/grad', value.grad.data.cpu().numpy(), self.num_iterations)
+            self.writer.add_histogram(
+                name, value.data.cpu().numpy(), self.num_iterations)
+            self.writer.add_histogram(
+                name + '/grad', value.grad.data.cpu().numpy(), self.num_iterations)
 
     def _log_images(self, input, target, prediction, prefix=''):
         if self.model.training:

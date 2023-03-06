@@ -1,5 +1,16 @@
-# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+# MIT License
 
+# Copyright (c) 2018 Adrian Wolny (https://github.com/wolny/pytorch-3dunet)
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 
 import collections
 
@@ -60,17 +71,20 @@ class SliceBuilder:
         if not skip_shape_check:
             self._check_patch_shape(patch_shape)
 
-        self._raw_slices = self._build_slices(raw_dataset, patch_shape, stride_shape)
+        self._raw_slices = self._build_slices(
+            raw_dataset, patch_shape, stride_shape)
         if label_dataset is None:
             self._label_slices = None
         else:
             # take the first element in the label_dataset to build slices
-            self._label_slices = self._build_slices(label_dataset, patch_shape, stride_shape)
+            self._label_slices = self._build_slices(
+                label_dataset, patch_shape, stride_shape)
             assert len(self._raw_slices) == len(self._label_slices)
         if weight_dataset is None:
             self._weight_slices = None
         else:
-            self._weight_slices = self._build_slices(weight_dataset, patch_shape, stride_shape)
+            self._weight_slices = self._build_slices(
+                weight_dataset, patch_shape, stride_shape)
             assert len(self.raw_slices) == len(self._weight_slices)
 
     @property
@@ -140,7 +154,8 @@ class FilterSliceBuilder(SliceBuilder):
 
     def __init__(self, raw_dataset, label_dataset, weight_dataset, patch_shape, stride_shape, ignore_index=(0,),
                  threshold=0.6, slack_acceptance=0.01, **kwargs):
-        super().__init__(raw_dataset, label_dataset, weight_dataset, patch_shape, stride_shape, **kwargs)
+        super().__init__(raw_dataset, label_dataset,
+                         weight_dataset, patch_shape, stride_shape, **kwargs)
         if label_dataset is None:
             return
 
@@ -199,7 +214,8 @@ def get_train_loaders(config):
     dataset_cls_str = loaders_config.get('dataset', None)
     if dataset_cls_str is None:
         dataset_cls_str = 'StandardHDF5Dataset'
-        logger.warning(f"Cannot find dataset class in the config. Using default '{dataset_cls_str}'.")
+        logger.warning(
+            f"Cannot find dataset class in the config. Using default '{dataset_cls_str}'.")
     dataset_class = _loader_classes(dataset_cls_str)
 
     print(loaders_config['train']['file_paths'])
@@ -207,7 +223,8 @@ def get_train_loaders(config):
     assert set(loaders_config['train']['file_paths']).isdisjoint(loaders_config['val']['file_paths']), \
         "Train and validation 'file_paths' overlap. One cannot use validation data for training!"
 
-    train_datasets = dataset_class.create_datasets(loaders_config, phase='train')
+    train_datasets = dataset_class.create_datasets(
+        loaders_config, phase='train')
 
     val_datasets = dataset_class.create_datasets(loaders_config, phase='val')
 
@@ -218,7 +235,7 @@ def get_train_loaders(config):
         logger.info(
             f'{torch.cuda.device_count()} GPUs available. Using batch_size = {torch.cuda.device_count()} * {batch_size}')
         # batch_size = batch_size * torch.cuda.device_count() # orig
-        batch_size = batch_size #* torch.cuda.device_count() # luca
+        batch_size = batch_size  # * torch.cuda.device_count() # luca
 
     logger.info(f'Batch size for train/val loader: {batch_size}')
     # when training with volumetric data use batch_size of 1 due to GPU memory constraints
@@ -246,7 +263,8 @@ def get_test_loaders(config):
     dataset_cls_str = loaders_config.get('dataset', None)
     if dataset_cls_str is None:
         dataset_cls_str = 'StandardHDF5Dataset'
-        logger.warning(f"Cannot find dataset class in the config. Using default '{dataset_cls_str}'.")
+        logger.warning(
+            f"Cannot find dataset class in the config. Using default '{dataset_cls_str}'.")
     dataset_class = _loader_classes(dataset_cls_str)
 
     test_datasets = dataset_class.create_datasets(loaders_config, phase='test')

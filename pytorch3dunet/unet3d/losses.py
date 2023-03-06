@@ -1,5 +1,16 @@
-# Author Adrian Wolny, source: https://github.com/wolny/pytorch-3dunet
+# MIT License
 
+# Copyright (c) 2018 Adrian Wolny (https://github.com/wolny/pytorch-3dunet)
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 
 import torch
 import torch.nn.functional as F
@@ -73,7 +84,8 @@ class SkipLastTargetChannelWrapper(nn.Module):
         self.squeeze_channel = squeeze_channel
 
     def forward(self, input, target):
-        assert target.size(1) > 1, 'Target tensor has a singleton channel dimension, cannot remove channel'
+        assert target.size(
+            1) > 1, 'Target tensor has a singleton channel dimension, cannot remove channel'
 
         # skips last target channel if needed
         target = target[:, :-1, ...]
@@ -217,14 +229,16 @@ class PixelWiseCrossEntropyLoss(nn.Module):
         # normalize the input
         log_probabilities = self.log_softmax(input)
         # standard CrossEntropyLoss requires the target to be (NxDxHxW), so we need to expand it to (NxCxDxHxW)
-        target = expand_as_one_hot(target, C=input.size()[1], ignore_index=self.ignore_index)
+        target = expand_as_one_hot(target, C=input.size()[
+                                   1], ignore_index=self.ignore_index)
         # expand weights
         weights = weights.unsqueeze(1)
         weights = weights.expand_as(input)
 
         # create default class_weights if None
         if self.class_weights is None:
-            class_weights = torch.ones(input.size()[1]).float().to(input.device)
+            class_weights = torch.ones(
+                input.size()[1]).float().to(input.device)
         else:
             class_weights = self.class_weights
 
@@ -305,7 +319,8 @@ def get_loss_criterion(config):
         loss = _MaskingLossWrapper(loss, ignore_index)
 
     if skip_last_target:
-        loss = SkipLastTargetChannelWrapper(loss, loss_config.get('squeeze_channel', False))
+        loss = SkipLastTargetChannelWrapper(
+            loss, loss_config.get('squeeze_channel', False))
 
     return loss
 
