@@ -108,4 +108,6 @@ Yes, high correlation. Extract and inspect results using [scripts/data_analysis.
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
 
+Please note that repeated 3D U-Net training runs might lead to slightly different results. This is caused by random initialization of 3D U-Net weights.
+
 If you find this useful, please consider citing our work:

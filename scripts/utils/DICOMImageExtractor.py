@@ -7,17 +7,18 @@ from os.path import join as opj
 from scripts.utils.constants import IGNORE_SAMPLES_AT_DATES, MRI_ROOTDIR, MRI_IMG_DIR, DWMRI_IMG_DIR, T2STAR_DIRS
 from scripts.utils.minor_utils import min_max_norm
 
+
 class DICOMImageExtractor(object):
     def __init__(self,
-                mri_rootdir=MRI_ROOTDIR,
-                outdir_mri=MRI_IMG_DIR,
-                outdir_dwmri=DWMRI_IMG_DIR):
+                 mri_rootdir=MRI_ROOTDIR,
+                 outdir_mri=MRI_IMG_DIR,
+                 outdir_dwmri=DWMRI_IMG_DIR):
 
         assert os.path.isdir(mri_rootdir)
 
         self.mri_rootdir = mri_rootdir
-        self.outdir_mri=outdir_mri
-        self.outdir_dwmri=outdir_dwmri
+        self.outdir_mri = outdir_mri
+        self.outdir_dwmri = outdir_dwmri
 
     def extract_t2star_imgs(self):
         """
@@ -30,14 +31,16 @@ class DICOMImageExtractor(object):
             print('Processing t2star DICOM dir: ' + t2_star_dir)
             # extract organoid ids
             org_nrs = range(int(t2_star_dir[0]), int(t2_star_dir[2])+1)
-            org_date = t2_star_dir.split("/")[1][2:] + t2_star_dir.split("/")[1][:2]
-            ArrayDicom, _ = self._get_dcm_arr(os.path.join(self.mri_rootdir, t2_star_dir))
+            org_date = t2_star_dir.split(
+                "/")[1][2:] + t2_star_dir.split("/")[1][:2]
+            ArrayDicom, _ = self._get_dcm_arr(
+                os.path.join(self.mri_rootdir, t2_star_dir))
             img1, img2, img3 = self._split_image_three(ArrayDicom)
             org1_id = "org{}_{}".format(org_nrs[0], org_date)
-            org2_id = "org{}_{}".format(org_nrs[1], org_date) 
+            org2_id = "org{}_{}".format(org_nrs[1], org_date)
             org3_id = "org{}_{}".format(org_nrs[2], org_date)
-            
-            assert img1.shape== img2.shape and img2.shape==img3.shape
+
+            assert img1.shape == img2.shape and img2.shape == img3.shape
             # save one npy file per organoid
             np.save(os.path.join(self.outdir_mri, f"{org1_id}.npy"), img1)
             if org2_id not in IGNORE_SAMPLES_AT_DATES:
@@ -53,7 +56,7 @@ class DICOMImageExtractor(object):
         os.makedirs(self.outdir_dwmri, exist_ok=True)
         org_locs = dict()
         for root, dirs, files in os.walk(self.mri_rootdir):
-            if len(files)==264:
+            if len(files) == 264:
                 time = os.path.basename(os.path.dirname(root))
                 org = os.path.basename(os.path.dirname(os.path.dirname(root)))
                 if org not in org_locs:
@@ -76,8 +79,10 @@ class DICOMImageExtractor(object):
                     orgname3 = f'org{orgid3}_{time}'
 
                     ArrayDicom, _ = self._get_dcm_arr(v2, kind='dwmri')
-                    img0, img1, img2 = self._split_image_three(ArrayDicom, do_min_max_norm=False)
-                    img0, img1, img2 = img0[:,:,i::22], img1[:,:,i::22], img2[:,:,i::22]
+                    img0, img1, img2 = self._split_image_three(
+                        ArrayDicom, do_min_max_norm=False)
+                    img0, img1, img2 = img0[:, :, i::22], img1[:,
+                                                               :, i::22], img2[:, :, i::22]
                     if orgname1 not in IGNORE_SAMPLES_AT_DATES:
                         org_mri[orgname1] = img0
                         np.save(os.path.join(outdir2, f'{orgname1}.npy'), img0)
@@ -100,12 +105,13 @@ class DICOMImageExtractor(object):
                 # discard pixel data
                 continue
             if type(dicom_value.value) == pydicom.dataset.Dataset:
-                dicom_dict[dicom_value.tag] = self._dicom_dataset_to_dict(dicom_value.value)
+                dicom_dict[dicom_value.tag] = self._dicom_dataset_to_dict(
+                    dicom_value.value)
             else:
                 v = self._convert_value(dicom_value.value)
                 dicom_dict[dicom_value.tag] = v
         return dicom_dict
-    
+
     def _get_dcm_arr(self, filepath, kind='t2star'):
         assert kind in ['t2star', 'dwmri']
         PathDicom = filepath
@@ -113,7 +119,7 @@ class DICOMImageExtractor(object):
         for dirName, subdirList, fileList in os.walk(PathDicom):
             for filename in sorted(fileList):
                 if ".dcm" in filename.lower():  # check whether the file's DICOM
-                    lstFilesDCM.append(os.path.join(dirName,filename))
+                    lstFilesDCM.append(os.path.join(dirName, filename))
     #                 print(filename)
 
         # Get ref file
@@ -124,22 +130,31 @@ class DICOMImageExtractor(object):
         else:
             pass
         # Load dimensions based on the number of rows, columns, and slices (along the Z axis)
-        ConstPixelDims = (int(RefDs.Rows), int(RefDs.Columns), len(lstFilesDCM))
+        ConstPixelDims = (int(RefDs.Rows), int(
+            RefDs.Columns), len(lstFilesDCM))
 
         # Load spacing values (in mm)
-        ConstPixelSpacing = (float(RefDs.PixelSpacing[0]), float(RefDs.PixelSpacing[1]), float(RefDs.SliceThickness))
+        ConstPixelSpacing = (float(RefDs.PixelSpacing[0]), float(
+            RefDs.PixelSpacing[1]), float(RefDs.SliceThickness))
 
         # The array is sized based on 'ConstPixelDims'
-        ArrayDicom = numpy.zeros(ConstPixelDims, dtype=RefDs.pixel_array.dtype)
-
+        if kind == 't2star':
+            ArrayDicom = numpy.zeros(
+                ConstPixelDims, dtype=RefDs.pixel_array.dtype)
+        else:
+            ArrayDicom = numpy.zeros(ConstPixelDims, dtype='float32')
         # loop through all the DICOM files
         for filenameDCM in lstFilesDCM:
             # read the file
             ds = pydicom.read_file(filenameDCM)
             # store the raw image data
-            ArrayDicom[:, :, lstFilesDCM.index(filenameDCM)] = ds.pixel_array
+            px = ds.pixel_array
+            if kind == 'dwmri':
+                # convert to DTI units
+                px = px * ds.RescaleSlope + ds.RescaleIntercept
+            ArrayDicom[:, :, lstFilesDCM.index(filenameDCM)] = px
         return ArrayDicom, RefDs
-        
+
     def _split_image_three(self, dcmarr, do_min_max_norm=True):
         if do_min_max_norm:
             dcmarr = min_max_norm(dcmarr)
@@ -149,7 +164,7 @@ class DICOMImageExtractor(object):
         for i in range(0, dim_length, int(dim_length/3)):
             arrs.append(dcmarr[i:i+int(dim_length/3), :, :])
         return arrs[0], arrs[1], arrs[2]
-    
+
     def _convert_value(self, v):
         """
         Source: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
@@ -177,8 +192,3 @@ class DICOMImageExtractor(object):
         Source: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
         """
         return s.replace(u"\u0000", "").strip()
-
-
-
-
-
