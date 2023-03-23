@@ -9,11 +9,18 @@ from scripts.utils.minor_utils import min_max_norm
 
 
 class DICOMImageExtractor(object):
+
     def __init__(self,
                  mri_rootdir=MRI_ROOTDIR,
                  outdir_mri=MRI_IMG_DIR,
                  outdir_dwmri=DWMRI_IMG_DIR):
+        """Initialize DICOMImageExtractor
 
+        Args:
+            mri_rootdir (str, optional): root directory of MRI raw data. Defaults to MRI_ROOTDIR.
+            outdir_mri (str, optional): output directory for MRI (T2*) image extraction. Defaults to MRI_IMG_DIR.
+            outdir_dwmri (str, optional): output directory for DTI image extraction. Defaults to DWMRI_IMG_DIR.
+        """
         assert os.path.isdir(mri_rootdir)
 
         self.mri_rootdir = mri_rootdir
@@ -21,8 +28,7 @@ class DICOMImageExtractor(object):
         self.outdir_dwmri = outdir_dwmri
 
     def extract_t2star_imgs(self):
-        """
-        Saves one npy file per organoid in folder self.outdir_mri
+        """Saves one npy file per organoid in folder self.outdir_mri
         """
         os.makedirs(self.outdir_mri, exist_ok=True)
         # those EV are just filled with medium to ensure consistency between MRI runs (don't contain organoids)
@@ -50,8 +56,7 @@ class DICOMImageExtractor(object):
         print('Done')
 
     def extract_dw_mri_images(self):
-        """
-        Saves one npy file per organoid and sequence in folder self.outdir_dwmri/seq[i]
+        """Saves one npy file per organoid and sequence in folder self.outdir_dwmri/seq[i]
         """
         os.makedirs(self.outdir_dwmri, exist_ok=True)
         org_locs = dict()
@@ -95,8 +100,13 @@ class DICOMImageExtractor(object):
         print('Done')
 
     def _dicom_dataset_to_dict(self, dicom_header):
-        """
-        Adapted from: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
+        """Helper function for DICOM preparation. Adapted from: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
+
+        Args:
+            dicom_header (pydicom.dataset.Dataset): Pydicom dataset
+
+        Returns:
+            dict: Dictionary with the same information
         """
         dicom_dict = {}
         repr(dicom_header)
@@ -113,6 +123,12 @@ class DICOMImageExtractor(object):
         return dicom_dict
 
     def _get_dcm_arr(self, filepath, kind='t2star'):
+        """Extracts 3D array containing the pixel values from directory of DICOM files.
+
+        Args:
+            filepath (str): directory of DICOM files
+            kind (str, optional): either 't2star', 'dwmri'. Defaults to 't2star'.
+        """
         assert kind in ['t2star', 'dwmri']
         PathDicom = filepath
         lstFilesDCM = []  # create an empty list
@@ -156,6 +172,18 @@ class DICOMImageExtractor(object):
         return ArrayDicom, RefDs
 
     def _split_image_three(self, dcmarr, do_min_max_norm=True):
+        """Splits MRI image array into three equal sized arrays.
+
+        Args:
+            dcmarr (ndarray): 3D array containing pixel values of MRI image
+            do_min_max_norm (bool, optional): perform min-max normalization. Defaults to True.
+
+        Returns:
+            ndarray, ndarray, ndarray: Three equal sized arrays, each containing one organoid
+        """
+        """
+        
+        """
         if do_min_max_norm:
             dcmarr = min_max_norm(dcmarr)
         split_dim = 0
@@ -166,8 +194,10 @@ class DICOMImageExtractor(object):
         return arrs[0], arrs[1], arrs[2]
 
     def _convert_value(self, v):
-        """
-        Source: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
+        """Helper function for DICOM preparation. Source: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
+
+        Args:
+            v (can take multiple types): can take multiple types
         """
         t = type(v)
         if t in (list, int, float):
@@ -188,7 +218,12 @@ class DICOMImageExtractor(object):
         return cv
 
     def _sanitise_unicode(self, s):
-        """
-        Source: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
+        """Removes unicode. Helper function for DICOM preparation. Source: https://github.com/cxr-eye-gaze/eye-gaze-dataset/blob/master/DataProcessing/DataPreparation/image_preparation.py
+
+        Args:
+            s (str): string containing unicode
+
+        Returns:
+            str: string without unicode
         """
         return s.replace(u"\u0000", "").strip()

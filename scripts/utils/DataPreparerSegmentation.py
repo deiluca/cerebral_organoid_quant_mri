@@ -18,6 +18,16 @@ class DataPreparerSegmentation(object):
                  cyst_seg_gtdir=MRI_CYST_LOC_GT_DIR,
                  cyst_seg_files_3dunet=MRI_CYST_SEG_FILES_3DUNET,
                  fixed_splits=True):
+        """Initialize DataPreparerSegmentation
+
+        Args:
+            imgdir (str, optional): directory of extracted MRI/DTI images. Defaults to MRI_IMG_DIR.
+            org_seg_gtdir (str, optional): directory of ground truth organoid segmentation files. Defaults to MRI_ORG_LOC_GT_DIR.
+            org_seg_files_3dunet (str, optional): directory of output directory for h5files for 3D U-Net training on organoid segmentation. Defaults to MRI_ORG_SEG_FILES_3DUNET.
+            cyst_seg_gtdir (str, optional): directory of ground truth cyst segmentation files. Defaults to MRI_CYST_LOC_GT_DIR.
+            cyst_seg_files_3dunet (str, optional): directory of output directory for h5files for 3D U-Net training on cyst segmentation. Defaults to MRI_CYST_SEG_FILES_3DUNET.
+            fixed_splits (bool, optional): used pre-defined trainin-validation or not. Defaults to True.
+        """
         self.imgdir = imgdir
         self.org_seg_gtdir = org_seg_gtdir
         self.org_seg_files_3dunet = org_seg_files_3dunet
@@ -26,6 +36,8 @@ class DataPreparerSegmentation(object):
         self.fixed_splits = fixed_splits
 
     def create_h5files_organoid_seg(self):
+        """Generates one h5 file per sample. This h5 file encompasses the image and the ground truth mask for organoid segmentation.
+        """
         print('Creating H5 files for organoid seg...', end=' ')
         os.makedirs(self.org_seg_files_3dunet, exist_ok=True)
         for f in os.listdir(self.imgdir):
@@ -44,12 +56,20 @@ class DataPreparerSegmentation(object):
         print('done')
 
     def get_arr(self, x):
-        """
-        Transforms e.g. "['org5_0609', 'org6_0518', 'org4_0609']" to ['org5_0609', 'org6_0518', 'org4_0609']
+        """Transforms string of numpy array to numpy array.
+
+        Args:
+            x (str): String in the form '['org5_0609', 'org6_0518', 'org4_0609']'
+
+        Returns:
+            ndarray: For example above: ['org5_0609', 'org6_0518', 'org4_0609']
         """
         return [y.replace('[', '').replace(']', '').replace('\'', '').strip() for y in x.split(',')]
 
     def create_loocv_splits_organoid_seg(self):
+        """Performs leave-one-out cross validation per organoid, resulting in nine splits in total.
+        """
+
         df = pd.read_csv(CSV_ORG_OVERVIEW)
         print('Creating LOOCV splits for organoid seg...', end=' ')
 
@@ -98,6 +118,8 @@ class DataPreparerSegmentation(object):
         print('done')
 
     def create_h5files_cyst_seg(self):
+        """Generates one h5 file per sample. This h5 file encompasses the image and the ground truth mask for cyst segmentation.
+        """
         print('Creating H5 files for local cyst seg...', end=' ')
         os.makedirs(self.cyst_seg_files_3dunet, exist_ok=True)
         for f in os.listdir(self.cyst_seg_gtdir):
@@ -117,6 +139,8 @@ class DataPreparerSegmentation(object):
         print('done')
 
     def create_loocv_splits_local_cyst_seg(self):
+        """Generates one h5 file per sample. This h5 file encompasses the image and the ground truth mask for cyst segmentation.
+        """
         print('Creating LOOCV splits for local cyst seg...', end=' ')
 
         orgs_local_cyst_seg = [x.replace('.npy', '')

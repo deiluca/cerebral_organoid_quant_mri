@@ -14,6 +14,16 @@ class GlobalCystClassifier(object):
 
 
 def get_otsu_mask(image, thresh=None):
+    """Computes Otsu's mask of image using Otsu's threshold.
+
+    Args:
+        image (ndarray): _description_
+        thresh (float, optional): Fixed threshold to override Otsu. Defaults to None.
+
+    Returns:
+        binary (ndarray): numpy array of Otsu mask
+        pil_img (PIL.Image): Pillow image of Otsu mask
+    """
     if thresh is None:
         thresh = threshold_otsu(image)
     binary = image > thresh
@@ -24,6 +34,18 @@ def get_otsu_mask(image, thresh=None):
 
 
 def get_eppendorf(imgs, org_loc, key, drop_last=False):
+    """Get binary masks of Eppendorf tube / medium
+
+    Args:
+        imgs (dict): key = org_id; value = ndarray of image
+        org_loc (dict): key = org_id; value = ndarray of organoid mask
+        key (str): org_id
+        drop_last (bool, optional): drop_last organoid-containing mask to account for noisy intensities. Defaults to False.
+
+    Returns:
+        eppendorf_masks (ndarray): binary mask of Eppendorf tube (= medium) intensities
+        eppendorf_masks_stacked (ndarray): binary mask of Eppendorf tube (= medium) intensities
+    """
     eppendorf_masks = []
     for x in range(imgs[key].shape[-1]):
         # only do otsu in 2D slices containing organoids
@@ -46,6 +68,16 @@ def get_eppendorf(imgs, org_loc, key, drop_last=False):
 
 
 def get_all_otsu_masks(imgs, org_loc, drop_last=True):
+    """Computes Otsu masks for all images.
+
+    Args:
+        imgs (dict): key = org_id; value = ndarray of image
+        org_loc (dict): key = org_id; value = ndarray of organoid mask
+        drop_last (bool, optional): drop_last organoid-containing mask to account for noisy intensities. Defaults to False.
+
+    Returns:
+        _type_: _description_
+    """
     otsu, otsu_vis = {}, {}
     for key, x in imgs.items():
         otsu_non_stacked, otsu_stacked = get_eppendorf(
@@ -57,6 +89,18 @@ def get_all_otsu_masks(imgs, org_loc, drop_last=True):
 
 
 def get_org_mean_and_compactness(imgs, org_loc, otsu, mult_255=True, only_org_mean=False):
+    """Compute all organoid mean intensities and compactnesses
+
+    Args:
+        imgs (dict): key = org_id; value = ndarray of image
+        org_loc (dict): key = org_id; value = ndarray of organoid mask
+        otsu (dict): key = org_id; value = ndarray of Otsu mask
+        mult_255 (bool, optional): can be used in case image pixel values are in range 0 - 1. Defaults to True.
+        only_org_mean (bool, optional): only compute mean organoid intensity but not compactness. Defaults to False.
+
+    Returns:
+        df (pd.DataFrame): one organoid per row; in each row: mean organoid intensity and compactness
+    """
 
     org_ids, org_nrs, org_dates, compactness, org_mean = [], [], [], [], []
 
@@ -105,6 +149,14 @@ def get_org_mean_and_compactness(imgs, org_loc, otsu, mult_255=True, only_org_me
 
 
 def get_compactness(drop_last=True):
+    """Computes compactness of all organoids based on MRI (T2*) images, Otsu masks and ground truth organoid segmentations.
+
+    Args:
+        drop_last (bool, optional): Parameter for Otsu mask generation. Defaults to True.
+
+    Returns:
+        pd.DataFrame: one row per organoid with calculated compactness and global cysticity annotation.
+    """
     imgs = get_orig_imgs(kind='mri')
     gt = get_masks(kind='gt_org_loc')
     otsu, _ = get_all_otsu_masks(imgs, gt, drop_last=drop_last)

@@ -7,6 +7,15 @@ from scripts.utils.constants import MRI_IMG_DIR, DWMRI_IMG_DIR, MRI_ORG_LOC_GT_D
 
 
 def get_orig_imgs(kind, seq=None):
+    """Get MRI / DTI images
+
+    Args:
+        kind (str): 'mri', 'dwmri'
+        seq (int, optional): specific sequence for DTI. Defaults to None.
+
+    Returns:
+        dict: key is org_id, value ndarray representing image
+    """
     assert kind in ['mri', 'dwmri']
     if kind == 'mri':
         d = MRI_IMG_DIR
@@ -26,6 +35,14 @@ def get_orig_imgs(kind, seq=None):
 
 
 def get_masks(kind):
+    """Get masks of predicted / GT, organoid / cyst segmentation in MRI / DTI.
+
+    Args:
+        kind (str): Options 'gt_org_loc', 'gt_cyst_loc', 'gt_cyst_loc_all45', 'predicted_org_loc', 'gt_org_loc_dwmri'
+
+    Returns:
+        dict: key is org_id, value ndarray representing mask
+    """
     assert kind in ['gt_org_loc', 'gt_cyst_loc', 'gt_cyst_loc_all45',
                     'predicted_org_loc', 'gt_org_loc_dwmri']
     if kind == 'gt_org_loc':
@@ -56,6 +73,13 @@ def get_masks(kind):
 
 
 def write_h5(filename, raw, label):
+    """Writes h5 file to disk.
+
+    Args:
+        filename (str): _description_
+        raw (ndarray): image
+        label (ndarray): mask (e.g. organoid segmentation or cyst segmentation mask)
+    """
     with h5py.File(filename, "w") as data_file:
         data_file.create_dataset("raw", data=raw)
         data_file.create_dataset("label", data=label)

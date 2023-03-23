@@ -7,6 +7,12 @@ from statsmodels.stats.multitest import multipletests
 
 
 def get_metrics_global_cyst_seg_dw_mri():
+    """Compute ROC AUC and adjusted p-values for the separation of high- and low-quality organoids based on mean organoid intensity.
+
+    Returns:
+        pd.DataFrame: one DTI sequence per row; in each row: ROC AUC and p-value
+        list: list of pandas dataframes. One dataframe per DTI sequence; each dataframe contains the mean organoid intensities for each organoid
+    """
     dw_mri_gt = get_masks(kind='gt_org_loc_dwmri')
     roc_aucs, p_vals = [], []
     dfs = {}
