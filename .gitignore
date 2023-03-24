@@ -7,5 +7,6 @@ __pycache__
 .ipynb_checkpoints
 
 # large data directories
+all_data/
 all_results/
 results_backup/
