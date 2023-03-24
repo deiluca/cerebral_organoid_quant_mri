@@ -13,6 +13,13 @@ from scripts.utils.global_cyst_classification import get_compactness
 
 
 def plot_compactness(df, roc_auc_compactness, save_to=''):
+    """Swarmplot of compactness, x = low / high quality, y = compactness. One point per sample.
+
+    Args:
+        df (pd.DataFrame): one row per organoid, with columns 'compactness' and 'Organoid quality'
+        roc_auc_compactness (float): ROC for writing it in the title
+        save_to (str, optional): path to save plot. Defaults to ''.
+    """
     sns.set_style('white')
     plt.figure(figsize=(4, 3), facecolor='white')
     sns.swarmplot(data=df.sort_values('Organoid quality',
@@ -28,6 +35,11 @@ def plot_compactness(df, roc_auc_compactness, save_to=''):
 
 
 def get_df_cyst_sizes():
+    """Get dataframe comprising cyst size for every organoid.
+
+    Returns:
+        x (pd.DataFrame): dataframe comprising cyst size for every organoid
+    """
     # calculate cysticity
     cyst_masks = get_masks(kind='gt_cyst_loc_all45')
     org_ids, cyst_sizes = [], []
@@ -40,7 +52,11 @@ def get_df_cyst_sizes():
 
 
 def plot_correlation_compactness_cysticity(save_to):
+    """Scatterplot with x = cyst size y = compactness.
 
+    Args:
+        save_to (str, optional): path to save plot. Defaults to ''.
+    """
     df = get_compactness()
     x = get_df_cyst_sizes()
 
@@ -62,6 +78,11 @@ def plot_correlation_compactness_cysticity(save_to):
 
 
 def plot_trace_lq_hq_mean_org_int(save_to=''):
+    """Swarmplot of mean organoid intensity, x = low / high quality, y = mean organoid intensity. One point per sample.
+
+    Args:
+        save_to (str, optional): path to save plot. Defaults to ''.
+    """
     _, dfs_dwmri = get_metrics_global_cyst_seg_dw_mri()
     df_trace = dfs_dwmri[1]
     plt.figure(figsize=(4, 3), facecolor='white')
@@ -78,6 +99,19 @@ def plot_trace_lq_hq_mean_org_int(save_to=''):
 
 
 def get_org_boundaries(org_locs_planes, i):
+    """Extracts organoid boundaries.
+
+    Args:
+        org_locs_planes (list): containing the to-be-visualized planes and plane boundaries.
+                                Example: [(['88-117', '59', '32-67'], ['88-117', '60', '32-67']),
+                                          (['40-69', '41', '40-75'], ['40-69', '45', '40-75']),
+                                          (['5-55', '58', '15-90'], ['5-55', '61', '15-90']),
+                                          (['17-67', '36', '15-85'], ['17-67', '53', '15-85'])]
+        i (int): in range(4)
+
+    Returns:
+        list: list of 10 values, e.g. for example above and i = 0: [88, 117, 59, 32, 67, 88, 117, 60, 32, 67]
+    """
     a, b = org_locs_planes[i][0][0].split('-')
     c = org_locs_planes[i][0][1]
     d, e = org_locs_planes[i][0][2].split('-')
@@ -91,8 +125,17 @@ def get_org_boundaries(org_locs_planes, i):
 
 
 def plot_examples_lq_hq_organoids(org_ids, compactnesses, org_locs_planes, save_to=''):
-    """
-    Creates 2x2 plot with two examples per organoid and four organoids in total
+    """Creates 2x2 plot with two examples per organoid and four organoids in total
+
+    Args:
+        org_ids (list): list of four organoid ids
+        compactnesses (list): list of four compactnesses corresponding to the org_ids
+        org_locs_planes (list): containing the to-be-visualized planes and plane boundaries.
+                                Example: [(['88-117', '59', '32-67'], ['88-117', '60', '32-67']),
+                                          (['40-69', '41', '40-75'], ['40-69', '45', '40-75']),
+                                          (['5-55', '58', '15-90'], ['5-55', '61', '15-90']),
+                                          (['17-67', '36', '15-85'], ['17-67', '53', '15-85'])]
+        save_to (str, optional): path to save plot. Defaults to ''.
     """
     assert len(org_ids) == 4
     imgs = get_orig_imgs(kind='mri')
@@ -132,6 +175,8 @@ def plot_examples_lq_hq_organoids(org_ids, compactnesses, org_locs_planes, save_
 
 
 def plot_organoid_growth_over_time():
+    """lineplot with x = days y = organoid volume
+    """
     org_ids, org_sizes = [], []
     gt = get_masks(kind='gt_org_loc')
     for org_id, org_gt in gt.items():
@@ -156,51 +201,15 @@ def plot_organoid_growth_over_time():
 
 
 def get_green_binary_colors(x):
+    """Converts 1-values of binary array to green RGB color.
+
+    Args:
+        x (ndarray): binary numpy array
+
+    Returns:
+        x (ndarray): binary numpy array with 1-values converted to green color.
+    """
     x = x[:, :, np.newaxis]
     x = np.where(x == 0.0, [1.0, 1.0, 1.0, 0.0], x)
     x = np.where(x == 1.0, [60/255, 179/255, 113/255, 0.6], x)
     return x
-
-
-def plot_test_performance(df, save_to=''):
-    assert 'org_nr' in df.columns
-    assert 'org_nr' in df.columns
-    sns.set_style("whitegrid")
-    fig, axs = plt.subplots(1, 2, figsize=(8, 3))
-
-    # barplot
-    # create copy of dataframe to display 'Overall' performance in plot
-#     df_copy=df.copy()
-#     df_copy['org_nr'] = 'Overall'
-#     df_bar = pd.concat([df, df_copy])
-
-#     sns.barplot(data=df_bar, x='org_nr', y='Test Dice', ax=axs[0])
-#     axs[0].set_ylim(0.0, 1.0)
-#     axs[0].set_xlabel('Organoid')
-#     sns.despine(top=True, left=True, bottom=True, right=True, ax=axs[0])
-
-    # boxplot
-    sns.boxplot(data=df, x='org_nr', y='Test Dice', ax=axs[0])
-    axs[0].set_ylim(0.0, 1.0)
-    axs[0].set_xlabel('Organoid')
-    sns.despine(top=True, left=True, bottom=True, right=True, ax=axs[0])
-
-    # lineplot
-    df['org_nr'] = df['org_nr'].astype('str')
-    sns.lineplot(data=df, x="day", y="Test Dice",
-                 hue="org_nr", sort=True, ax=axs[1])
-    axs[1].set_ylabel('Test Dice')
-    axs[1].set_xlabel('Day')
-    axs[1].set_ylim((0.0, 1.0))
-    sns.despine(bottom=True, top=True, left=True, right=True, ax=axs[1])
-    axs[1].legend(title='Organoid', loc='center left', bbox_to_anchor=(1, 0.5))
-
-#     df['org_id_readable'] = 'Org ' + df['org_nr'].astype('str')+', Day '+df['day'].astype('str')
-#     sns.barplot(data=df, x='org_id_readable', y='Test Dice', color='grey', ax=axs[2])
-#     axs[2].tick_params(labelrotation=90)
-#     axs[2].set_xlabel('')
-#     axs[2].set_ylim(0.0, 1.0)
-
-    plt.tight_layout()
-    if save_to != '':
-        plt.savefig(save_to, dpi=400)

@@ -10,13 +10,21 @@ from scripts.utils.metrics import get_dice
 
 class SegmentationPerformanceExtractor(object):
     def __init__(self,
-                 pred_dir='',
-                 gt_dir=''):
+                 pred_dir,
+                 gt_dir):
+        """Initialize SegmentationPerformanceExtractor
+
+        Args:
+            pred_dir (str): directory of predictions in form of numpy files. One numpy file per sample.
+            gt_dir (str): directory of ground truths in form of numpy files. One numpy file per sample.
+        """
 
         self.pred_dir = pred_dir
         self.gt_dir = gt_dir
 
     def extract_test_performance(self):
+        """Get Dice scores for each LOOCV split
+        """
         org_ids, test_dices = [], []
         for i in range(1, 10):
             # get test performance
@@ -30,6 +38,8 @@ class SegmentationPerformanceExtractor(object):
         self.df = df
 
     def print_test_dice_mean_sd(self):
+        """_summary_
+        """
         assert self.df is not None
         mean = self.df.drop_duplicates().mean()['Test Dice']
         sd = self.df.drop_duplicates().std()['Test Dice']
@@ -37,6 +47,11 @@ class SegmentationPerformanceExtractor(object):
               f'{sd:.2f} (mean'+u"\u00B1"+'SD)')
 
     def get_dice_scores(self):
+        """Get Dice scores of all predictions with respect to GT
+
+        Returns:
+            dice_scores(dict): key = org_id value = dict with dice scores and pred / gt files
+        """
 
         all_pred = sorted([opj(self.pred_dir, x) for x in os.listdir(
             self.pred_dir) if x.endswith('predictions.npy')])
@@ -56,19 +71,13 @@ class SegmentationPerformanceExtractor(object):
         return dice_scores
 
     def plot_test_performance(self, save_to=''):
+        """boxplots (x: org_nr, y:dice) and line plot (x: day, y:dice) of segmentation performance
+
+        Args:
+            save_to (str, optional): path to save plot. Defaults to ''.
+        """
         sns.set_style("whitegrid")
         fig, axs = plt.subplots(1, 2, figsize=(8, 3))
-
-        # barplot
-        # create copy of dataframe to display 'Overall' performance in plot
-    #     df_copy=df.copy()
-    #     df_copy['org_nr'] = 'Overall'
-    #     df_bar = pd.concat([df, df_copy])
-
-    #     sns.barplot(data=df_bar, x='org_nr', y='Test Dice', ax=axs[0])
-    #     axs[0].set_ylim(0.0, 1.0)
-    #     axs[0].set_xlabel('Organoid')
-    #     sns.despine(top=True, left=True, bottom=True, right=True, ax=axs[0])
 
         # boxplot
         sns.boxplot(data=self.df, x='org_nr', y='Test Dice', ax=axs[0])
@@ -87,12 +96,6 @@ class SegmentationPerformanceExtractor(object):
         axs[1].legend(title='Organoid', loc='center left',
                       bbox_to_anchor=(1, 0.5))
 
-    #     df['org_id_readable'] = 'Org ' + df['org_nr'].astype('str')+', Day '+df['day'].astype('str')
-    #     sns.barplot(data=df, x='org_id_readable', y='Test Dice', color='grey', ax=axs[2])
-    #     axs[2].tick_params(labelrotation=90)
-    #     axs[2].set_xlabel('')
-    #     axs[2].set_ylim(0.0, 1.0)
-
         plt.tight_layout()
         if save_to != '':
-            plt.savefig(save_to, dpi=400)
+            plt.savefig(save_to, dpi=1000)
