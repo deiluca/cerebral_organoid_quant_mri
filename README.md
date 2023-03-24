@@ -1,11 +1,11 @@
 # Cerebral organoid quantification in MRI
 
-This repository quantifies cerebral organoids in MRI. It especially implements three tasks:
+This repository reproduces the results published in the paper "Cerebral organoid quantification in MRI"
+
+Specifically, it especially implements three tasks:
 - Organoid segmentation
 - Global cysticity classification
 - Local cyst segmentation
-
-These tasks are presented in the paper Cerebral organoid quantification in MRI.
 
 For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (https://github.com/wolny/pytorch-3dunet).
 
@@ -33,7 +33,7 @@ conda activate co_quant_mri
 
 ## Data preparation
 
-1. Download the data from x: Describe how to unpack exactly and where
+1. Download the data from Zenodo and unpack it in data/data_zenodo
 
 2. Image extraction and data preparation
     ```
@@ -42,7 +42,7 @@ conda activate co_quant_mri
 
 ## Organoid segmentation
 
-1. Train and test 3D U-Net. [can be skipped: results from previous run are located in results/organoid_segmentation]
+1. Train and test 3D U-Net. (can be skipped: checkpoints from previous run are located [here](results/organoid_segmentation/checkpoint_dirs))
      ```
      python scripts/train_organoid_seg.py
      python scripts/test_organoid_seg.py
@@ -81,7 +81,7 @@ See [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
      style="float: center; margin-right: 10px; height:300px" />
 
 ## Local cyst segmentation
-1. Train and test 3D U-Net. [can be skipped: results from previous run are located in results/local_cyst_segmentation]
+1. Train and test 3D U-Net. (can be skipped: checkpoints from previous run are located [here](results/local_cyst_segmentation/checkpoint_dirs))
      ```
      python scripts/train_local_cyst_seg.py
      python scripts/test_local_cyst_seg.py

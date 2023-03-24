@@ -5,11 +5,11 @@ MRI_IMG_DIR = 'data/T2_star_images/'
 DWMRI_IMG_DIR = 'data/DW-MRI_images'
 
 # annotations
-MRI_ORG_LOC_GT_DIR = 'data/annotations/MRI_ground_truth_organoid_locations'
-MRI_CYST_LOC_GT_DIR = 'data/annotations/MRI_ground_truth_cyst_locations/cyst_size_greater_1000'
-MRI_CYST_LOC_GT_DIR_ALL45 = 'data/annotations/MRI_ground_truth_cyst_locations'
-DWMRI_ORG_LOC_GT_DIR = 'data/annotations/DW-MRI_ground_truth_organoid_locations'
-CSV_GLOBAL_CYST_ANNOT = 'data/annotations/global_cyst_classification_annotations.csv'
+MRI_ORG_LOC_GT_DIR = 'data/data_zenodo/annotations/MRI_ground_truth_organoid_locations'
+MRI_CYST_LOC_GT_DIR = 'data/data_zenodo/annotations/MRI_ground_truth_cyst_locations/cyst_size_greater_1000'
+MRI_CYST_LOC_GT_DIR_ALL45 = 'data/data_zenodo/annotations/MRI_ground_truth_cyst_locations'
+DWMRI_ORG_LOC_GT_DIR = 'data/data_zenodo/annotations/DW-MRI_ground_truth_organoid_locations'
+CSV_GLOBAL_CYST_ANNOT = 'data/data_zenodo/annotations/global_cyst_classification_annotations.csv'
 
 # files for segmentation
 MRI_ORG_SEG_FILES_3DUNET = 'data/organoid_seg_files_3D-U-Net'
@@ -18,7 +18,7 @@ MRI_ORG_SEG_SPLITS = 'data/splits_org_seg.csv'
 MRI_CYST_SEG_SPLITS = 'data/splits_local_cyst_seg.csv'
 
 
-CSV_ORG_OVERVIEW = 'data/data_overview.csv'
+CSV_ORG_OVERVIEW = 'data/data_zenodo/data_overview.csv'
 
 ORG_ID = 'org_id'
 

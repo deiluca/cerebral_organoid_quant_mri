@@ -29,7 +29,7 @@ def create_conf_files_test(create_yml=False):
 
     for i in range(1, 10):
         ckp_dir = f'results/organoid_segmentation/checkpoint_dirs/org{i}'
-        outdir = opj(ckp_dir, 'test_out_incl_raw_pred')
+        outdir = opj(ckp_dir, 'test_out')
         ref_config['model_path'] = opj(ckp_dir, 'best_checkpoint.pytorch')
         ref_config['loaders']['test']['file_paths'] = [
             f'{MRI_ORG_SEG_FILES_3DUNET}/LOO_org{i}/test']
@@ -50,7 +50,7 @@ def move_test_files_to_common_dir():
     outdir = 'results/organoid_segmentation/checkpoint_dirs/all_predictions_on_test_sets'
     os.makedirs(outdir, exist_ok=True)
     for i in range(1, 10):
-        ckp_dir = f'results/organoid_segmentation/checkpoint_dirs/org{i}/test_out_incl_raw_pred'
+        ckp_dir = f'results/organoid_segmentation/checkpoint_dirs/org{i}/test_out'
         for f in os.listdir(ckp_dir):
             if f.endswith('predictions.npy'):
                 shutil.copyfile(opj(ckp_dir, f), opj(outdir, f))

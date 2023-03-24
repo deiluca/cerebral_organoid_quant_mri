@@ -7,6 +7,7 @@ from collections import Counter
 import io
 from PIL import Image
 
+from scripts.utils.constants import CSV_ORG_OVERVIEW
 from scripts.utils.io_utils import get_masks, get_orig_imgs
 from scripts.utils.dwmri import get_metrics_global_cyst_seg_dw_mri
 from scripts.utils.global_cyst_classification import get_compactness
@@ -187,7 +188,7 @@ def plot_organoid_growth_over_time():
         org_sizes.append(c[1])
 
     df = pd.DataFrame.from_dict({'org_id': org_ids, 'org_size': org_sizes})
-    df = df.merge(pd.read_csv('mri_paper_data/data_overview.csv'),
+    df = df.merge(pd.read_csv(CSV_ORG_OVERVIEW),
                   on='org_id').sort_values('org_id')
     df['org_nr'] = df['org_nr'].astype('str')
 
