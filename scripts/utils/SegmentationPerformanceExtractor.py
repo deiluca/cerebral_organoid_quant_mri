@@ -77,7 +77,7 @@ class SegmentationPerformanceExtractor(object):
             save_to (str, optional): path to save plot. Defaults to ''.
         """
         sns.set_style("whitegrid")
-        fig, axs = plt.subplots(1, 2, figsize=(8, 3))
+        fig, axs = plt.subplots(1, 2, figsize=(8, 3), facecolor='white')
 
         # boxplot
         sns.boxplot(data=self.df, x='org_nr', y='Test Dice', ax=axs[0])
