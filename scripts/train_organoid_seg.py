@@ -28,7 +28,7 @@ def create_conf_files(create_yml=False):
     config_locs = []
     for i in range(1, 10):
         ref_config['trainer'][
-            'checkpoint_dir'] = f'results/organoid_segmentation/checkpoint_dirs/org{i}'
+            'checkpoint_dir'] = f'results/organoid_segmentation/checkpoint_dirs/LOO_org{i}'
         ref_config['trainer']['max_num_iterations'] = 2000
         ref_config['loaders']['train']['file_paths'] = [
             f'{MRI_ORG_SEG_FILES_3DUNET}/LOO_org{i}/train']

@@ -58,7 +58,7 @@ def get_masks(kind):
         d = MRI_CYST_LOC_GT_DIR_ALL45
         suffix = '.npy'
     elif kind == 'predicted_org_loc':
-        d = 'results/organoid_segmentation/checkpoint_dirs/all_predictions_on_test_sets'
+        d = 'results/organoid_segmentation/checkpoint_dirs_trained_previously/all_predictions_on_test_sets'
         suffix = '_predictions.npy'
     all_gt = dict()
     for f in os.listdir(d):

@@ -2,8 +2,6 @@ import shutil
 import yaml
 from os.path import join as opj
 import os
-import sys
-sys.path.insert(0, '/home/ws/oc9627/cerebral_organoid_quant_mri')
 from scripts.utils.constants import WORKING_DIR, MRI_ORG_SEG_FILES_3DUNET  # noqa
 
 os.chdir(WORKING_DIR)

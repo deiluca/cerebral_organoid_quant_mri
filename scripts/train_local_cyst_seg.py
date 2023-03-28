@@ -29,7 +29,7 @@ def create_conf_files(create_yml=False):
     config_locs = []
     for org in range(1, 9):
         ref_config['trainer'][
-            'checkpoint_dir'] = f'results/local_cyst_segmentation/checkpoint_dirs/org{org}'
+            'checkpoint_dir'] = f'results/local_cyst_segmentation/checkpoint_dirs/LOO_org{org}'
         ref_config['trainer']['max_num_iterations'] = 5000
         ref_config['loaders']['train']['file_paths'] = [
             f'{MRI_CYST_SEG_FILES_3DUNET}/LOO_org{org}/train']
@@ -53,6 +53,7 @@ def train_all_models(config_locs):
     for i, cl in enumerate(config_locs):
         print('Training with config:', cl)
         os.system(f'python pytorch3dunet/train.py --config {cl}')
+
 
 if __name__ == '__main__':
     config_locs = create_conf_files(create_yml=True)
