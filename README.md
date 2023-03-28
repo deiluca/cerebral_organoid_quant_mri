@@ -11,8 +11,8 @@ For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (ht
 
 ## Prerequisites
 
-* Operating system: Windows or Linux (tested on Ubuntu 18.04) **Adapt**
-* [Anaconda Distribution](https://www.anaconda.com/distribution/#download-section) **Adapt**
+* Operating system: Windows or Linux (tested on Ubuntu 18.04)
+* [Anaconda Distribution](https://www.anaconda.com/distribution/#download-section)
 
 ## Installation
 ```
@@ -100,7 +100,7 @@ See [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
 
-**Can compacntess predict cysticity?**
+**Is compactness a predictor of organoid cysticity?**
 
 Yes, high correlation. Extract and inspect results using [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 

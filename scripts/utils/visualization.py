@@ -199,6 +199,7 @@ def plot_organoid_growth_over_time():
     plt.legend(title='Organoid', loc='center left', bbox_to_anchor=(1, 0.5))
     sns.despine(bottom=True, top=True, left=True, right=True)
     plt.tight_layout()
+    return df
 
 
 def get_green_binary_colors(x):
