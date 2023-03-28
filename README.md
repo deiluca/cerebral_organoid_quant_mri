@@ -11,23 +11,28 @@ For the implementation of the 3D U-Net, the full credit goes to Adrian Wolny (ht
 
 ## Prerequisites
 
-* Operating system: Windows or Linux (tested on Ubuntu 18.04)
-* [Anaconda Distribution](https://www.anaconda.com/distribution/#download-section)
+* Operating system: Windows or Linux (tested on Ubuntu 20.04)
+* [Install Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#installing-conda-on-a-system-that-has-other-python-installations-or-packages)
 
 ## Installation
 ```
 git clone https://github.com/deiluca/cerebral_organoid_quant_mri
 ```
-Install requirements
+Install conda environment
 ```
 cd path/to/cerebral_organoid_quant_mri
-conda env create -f requirements.yml
+conda env create -f environment.yml
 ```
 
 Activate the conda environment:
 
 ```
 conda activate co_quant_mri
+```
+
+Add this line to ~/.bashrc to permanently add the repository to PYTHONPATH
+```
+export PYTHONPATH="${PYTHONPATH}:path/to/cerebral_organoid_quant_mri"
 ```
 
 

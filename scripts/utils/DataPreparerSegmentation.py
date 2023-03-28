@@ -145,7 +145,7 @@ class DataPreparerSegmentation(object):
 
         orgs_local_cyst_seg = [x.replace('.npy', '')
                                for x in os.listdir(self.cyst_seg_gtdir)]
-        for org in range(1, 10):
+        for org in range(1, 9):
             outdir = opj(self.cyst_seg_files_3dunet, f'LOO_org{org}')
             if os.path.isdir(outdir):
                 shutil.rmtree(outdir)
