@@ -1,4 +1,4 @@
-
+"""Helper functions for Pillow visualization"""
 
 from PIL import Image
 import numpy as np

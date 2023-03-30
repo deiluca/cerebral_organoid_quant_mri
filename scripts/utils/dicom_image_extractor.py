@@ -152,10 +152,6 @@ class DICOMImageExtractor():
         ConstPixelDims = (int(RefDs.Rows), int(
             RefDs.Columns), len(lstFilesDCM))
 
-        # Load spacing values (in mm)
-        ConstPixelSpacing = (float(RefDs.PixelSpacing[0]), float(
-            RefDs.PixelSpacing[1]), float(RefDs.SliceThickness))
-
         # The array is sized based on 'ConstPixelDims'
         if kind == 't2star':
             ArrayDicom = np.zeros(

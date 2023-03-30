@@ -1,7 +1,8 @@
+"""Helper functions for I/O"""
 import os
-import numpy as np
-import h5py
 from os.path import join as opj
+import h5py
+import numpy as np
 
 from scripts.utils.constants import MRI_IMG_DIR, DWMRI_IMG_DIR, MRI_ORG_LOC_GT_DIR, DWMRI_ORG_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR_ALL45
 
@@ -64,7 +65,6 @@ def get_masks(kind):
     for f in os.listdir(d):
         if not f.endswith('.npy'):
             continue
-        filename = os.path.join(d, f)
         org = f.replace(suffix, '')
         gt_file = opj(d, f'{org}{suffix}')
         gt = np.load(gt_file)

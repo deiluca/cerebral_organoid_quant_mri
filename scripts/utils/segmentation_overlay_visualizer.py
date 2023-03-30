@@ -1,9 +1,8 @@
-
-from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
+"""Visualize segmentation performance"""
 from os.path import join as opj
 import io
+import matplotlib.pyplot as plt
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from scripts.utils.metrics import dice
@@ -176,12 +175,20 @@ class SegmentationOverlayVisualizer(object):
         nr_rows = 3
         if self.keep_planes is not None:
             indices_dices = {
-                k: v for k, v in indices_dices.items() if k in self.keep_planes}
-        fig, axs = plt.subplots(len(indices_dices), nr_rows, figsize=(
-            self.size_per_org_x*nr_rows, self.size_per_org_y*len(indices_dices)), facecolor='white')
+                k: v for k, v in indices_dices.items()
+                if k in self.keep_planes}
+        fig, axs = plt.subplots(
+            len(indices_dices),
+            nr_rows,
+            figsize=(self.size_per_org_x * nr_rows, self.size_per_org_y *
+                     len(indices_dices)),
+            facecolor='white')
         plane_numbers = []
     #     print(len(indices_dices), indices_dices)
-        for j, i in enumerate(sorted(list(indices_dices.keys()), reverse=True)):
+        for j, i in enumerate(
+            sorted(
+                list(indices_dices.keys()),
+                reverse=True)):
             plane_numbers.append(i)
             if self.planes == 'coronal':
                 gt_i = self.gt[ol[2]:ol[3], ol[0]:ol[1], i]

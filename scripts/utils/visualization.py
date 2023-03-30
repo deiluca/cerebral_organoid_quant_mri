@@ -150,7 +150,7 @@ def plot_examples_lq_hq_organoids(
     i = 0
     for org_id in org_ids:
         #     print('org_id', org_id)
-        fig, axs = plt.subplots(1, 2, figsize=(5, 5))
+        _, axs = plt.subplots(1, 2, figsize=(5, 5))
         a, b, c, d, e, f, g, h, j, k = get_org_boundaries(org_locs_planes, i)
         axs[0].imshow(np.rot90(imgs[org_id][a:b, c, d:e]*-1, 3), cmap='Greys')
         axs[1].imshow(np.rot90(imgs[org_id][f:g, h, j:k]*-1, 3), cmap='Greys')
@@ -163,7 +163,7 @@ def plot_examples_lq_hq_organoids(
 
     extract_imgs = [Image.open(img_buf) for img_buf in img_bufs]
     subplot_prefixes = ['(a)', '(b)', '(c)', '(d)']
-    fig, axs = plt.subplots(2, 2, facecolor='white')
+    _, axs = plt.subplots(2, 2, facecolor='white')
     axs = axs.T.ravel()
     for i in range(4):
         axs[i].imshow(extract_imgs[i])

@@ -31,7 +31,7 @@ class SegmentationPerformanceExtractor():
         """Get Dice scores for each LOOCV split
         """
         org_ids, test_dices = [], []
-        for i in range(1, 10):
+        for _ in range(1, 10):
             # get test performance
             dice_scores = self.get_dice_scores()
             for org_id, v in dice_scores.items():

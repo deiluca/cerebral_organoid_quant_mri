@@ -1,16 +1,20 @@
+"""Prepare data for segmentation"""
+
 import os
-import numpy as np
-import pandas as pd
 from os.path import join as opj
-from sklearn.model_selection import train_test_split
 import shutil
-from collections import Counter
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 from scripts.utils.io_utils import write_h5
 from scripts.utils.constants import MRI_IMG_DIR, MRI_ORG_LOC_GT_DIR, MRI_CYST_LOC_GT_DIR, MRI_ORG_SEG_FILES_3DUNET, MRI_CYST_SEG_FILES_3DUNET, CSV_ORG_OVERVIEW, ORG_ID, MRI_CYST_SEG_SPLITS, MRI_ORG_SEG_SPLITS
 
 
-class DataPreparerSegmentation(object):
+class DataPreparerSegmentation():
+    """Prepare data for segmentation
+    """
+
     def __init__(self,
                  imgdir=MRI_IMG_DIR,
                  org_seg_gtdir=MRI_ORG_LOC_GT_DIR,

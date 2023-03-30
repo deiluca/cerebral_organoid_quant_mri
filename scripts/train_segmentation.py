@@ -61,7 +61,7 @@ def train_all_models(config_locs):
     Args:
         config_locs (list): list of all config files (one config file per LOOCV test set)
     """
-    for i, cl in enumerate(config_locs):
+    for _, cl in enumerate(config_locs):
         print('Training with config:', cl)
         os.system(f'python pytorch3dunet/train.py --config {cl}')
 

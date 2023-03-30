@@ -10,13 +10,6 @@ from scripts.utils.minor_utils import make_mask_arr_visible
 from scripts.utils.io_utils import get_orig_imgs, get_masks
 
 
-class GlobalCystClassifier():
-    """Classify global cysts
-    """
-
-    def __init__(self):
-        pass
-
 
 def get_otsu_mask(image, thresh=None):
     """Computes Otsu's mask of image using Otsu's threshold.

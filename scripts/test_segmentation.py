@@ -1,3 +1,5 @@
+"""Test 3D U-Net"""
+
 import sys
 import shutil
 from os.path import join as opj

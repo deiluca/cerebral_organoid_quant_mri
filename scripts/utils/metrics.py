@@ -3,7 +3,6 @@ from scipy.stats import ttest_ind
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import auc
 from sklearn.metrics import precision_recall_curve
-from sklearn.metrics import auc
 
 
 def dice(pred, true, k=1):
@@ -51,8 +50,9 @@ def calculate_roc_auc(df, col='org_mean'):
     Returns:
         float: ROC AUC
     """
-    labels = [
-        1 if x == 'High quality' else 0 for x in df['Organoid quality'].tolist()]
+    labels = [1
+              if x == 'High quality' else 0
+              for x in df['Organoid quality'].tolist()]
     values = df[col]
     roc_auc = roc_auc_score(labels, values)
     roc_auc = max(1 - roc_auc, roc_auc)
@@ -85,8 +85,9 @@ def calculate_pr_auc(df, col='org_mean'):
     Returns:
         float: PR AUC
     """
-    labels = [
-        1 if x == 'High quality' else 0 for x in df['Organoid quality'].tolist()]
+    labels = [1
+              if x == 'High quality' else 0
+              for x in df['Organoid quality'].tolist()]
     values = df[col]
     precision, recall, _ = precision_recall_curve(labels, values)
     # Use AUC function to calculate the area under the curve of precision recall curve

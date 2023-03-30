@@ -1,3 +1,5 @@
+"""Defining all constant variables"""
+
 WORKING_DIR = '/home/ws/oc9627/cerebral_organoid_quant_mri'
 
 MRI_ROOTDIR = 'data/data_zenodo/MRI_raw_data'
@@ -55,21 +57,22 @@ DWMRI_SEQUENCES = ['Fractional Anisotropy',
                    '3rd Eigenvector y',
                    '3rd Eigenvector z']
 
-T2STAR_DIRS = ['1-3/1805/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220518__E13_P1',
-               '1-3/2305/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220523__E13_P1',
-               '1-3/3005/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220530__E6_P1',
-               '1-3/0206/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220602__E26_P1',
-               '1-3/0906/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220609__E6_P1',
-               '1-3/1506/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220615__E6_P1',
-               '1-3/2206/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220622__E6_P1',
-               '1-3/3006/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220630__E6_P1',
-               '1-3/0707/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220707__E6_P1',
-               '4-6/1805/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220518__E13_P1',
-               '4-6/2305/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220523__E6_P1',
-               '4-6/3005/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220530__E6_P1',
-               '4-6/0206/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220602__E6_P1',
-               '4-6/0906/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220609__E6_P1',
-               '4-6/1506/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220615__E6_P1',
-               '7-9/1805/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220518__E13_P1',
-               '7-9/2305/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220523__E6_P1',
-               '7-9/3005/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220530__E6_P1']
+T2STAR_DIRS = [
+    '1-3/1805/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220518__E13_P1',
+    '1-3/2305/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220523__E13_P1',
+    '1-3/3005/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220530__E6_P1',
+    '1-3/0206/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220602__E26_P1',
+    '1-3/0906/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220609__E6_P1',
+    '1-3/1506/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220615__E6_P1',
+    '1-3/2206/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220622__E6_P1',
+    '1-3/3006/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220630__E6_P1',
+    '1-3/0707/DS_organoid2022_1bis3_DS_organoid2022_1bis3_20220707__E6_P1',
+    '4-6/1805/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220518__E13_P1',
+    '4-6/2305/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220523__E6_P1',
+    '4-6/3005/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220530__E6_P1',
+    '4-6/0206/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220602__E6_P1',
+    '4-6/0906/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220609__E6_P1',
+    '4-6/1506/DS_organoid2022_4bis6_DS_organoid2022_4bis6_20220615__E6_P1',
+    '7-9/1805/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220518__E13_P1',
+    '7-9/2305/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220523__E6_P1',
+    '7-9/3005/DS_organoid2022_7bis9_DS_organoid2022_7bis9_20220530__E6_P1']
