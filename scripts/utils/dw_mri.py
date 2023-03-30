@@ -1,9 +1,12 @@
+""" Diffusion weighted MRI: calculate metrics for global cyst seg"""
+
 import pandas as pd
+from statsmodels.stats.multitest import multipletests
+
 from scripts.utils.io_utils import get_orig_imgs, get_masks
 from scripts.utils.constants import DWMRI_SEQUENCES, CSV_GLOBAL_CYST_ANNOT
 from scripts.utils.metrics import calculate_roc_auc, calculate_p_val_test
 from scripts.utils.global_cyst_classification import get_org_mean_and_compactness
-from statsmodels.stats.multitest import multipletests
 
 
 def get_metrics_global_cyst_seg_dw_mri():
@@ -32,10 +35,10 @@ def get_metrics_global_cyst_seg_dw_mri():
         p_vals.append(p_val_moi)
     roc_auc_col = 'ROC AUC'
     p_val_col = 'P-value'
-    df_metrics = pd.DataFrame.from_dict({'DW-MRI sequence': DWMRI_SEQUENCES,
-                                         roc_auc_col: roc_aucs,
-                                         p_val_col: p_vals},
-                                        ).sort_values(roc_auc_col, ascending=False)
+    df_metrics = pd.DataFrame.from_dict(
+        {'DW-MRI sequence': DWMRI_SEQUENCES, roc_auc_col: roc_aucs,
+         p_val_col: p_vals},).sort_values(
+        roc_auc_col, ascending=False)
     p_vals = df_metrics[p_val_col].tolist()
     p_vals = [float(x) for x in p_vals]
     _, p_vals_corr, _, _ = multipletests(p_vals, method='holm-sidak')

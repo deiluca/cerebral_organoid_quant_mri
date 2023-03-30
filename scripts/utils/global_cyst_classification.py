@@ -1,6 +1,8 @@
+"""Classify global cysts"""
+
 from PIL import Image
 import numpy as np
-from skimage.filters import threshold_otsu
+from skimage.filters import threshold_otsu  # pylint: disable= no-name-in-module
 import pandas as pd
 
 from scripts.utils.constants import CSV_ORG_OVERVIEW, CSV_GLOBAL_CYST_ANNOT
@@ -8,7 +10,10 @@ from scripts.utils.minor_utils import make_mask_arr_visible
 from scripts.utils.io_utils import get_orig_imgs, get_masks
 
 
-class GlobalCystClassifier(object):
+class GlobalCystClassifier():
+    """Classify global cysts
+    """
+
     def __init__(self):
         pass
 
@@ -79,7 +84,7 @@ def get_all_otsu_masks(imgs, org_loc, drop_last=True):
         _type_: _description_
     """
     otsu, otsu_vis = {}, {}
-    for key, x in imgs.items():
+    for key, _ in imgs.items():
         otsu_non_stacked, otsu_stacked = get_eppendorf(
             imgs, org_loc, key, drop_last=drop_last)
         otsu[key] = otsu_stacked
@@ -88,7 +93,8 @@ def get_all_otsu_masks(imgs, org_loc, drop_last=True):
     return otsu, otsu_vis
 
 
-def get_org_mean_and_compactness(imgs, org_loc, otsu, mult_255=True, only_org_mean=False):
+def get_org_mean_and_compactness(
+        imgs, org_loc, otsu, mult_255=True, only_org_mean=False):
     """Compute all organoid mean intensities and compactnesses
 
     Args:

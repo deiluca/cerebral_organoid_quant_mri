@@ -1,14 +1,17 @@
+"""Extract DICOM images """
 import os
-import pydicom
-import numpy as np
-import numpy
 from os.path import join as opj
+import numpy as np
+import pydicom
+
 
 from scripts.utils.constants import IGNORE_SAMPLES_AT_DATES, MRI_ROOTDIR, MRI_IMG_DIR, DWMRI_IMG_DIR, T2STAR_DIRS
 from scripts.utils.minor_utils import min_max_norm
 
 
-class DICOMImageExtractor(object):
+class DICOMImageExtractor():
+    """"Extract DICOM images
+    """
 
     def __init__(self,
                  mri_rootdir=MRI_ROOTDIR,
@@ -42,9 +45,9 @@ class DICOMImageExtractor(object):
             ArrayDicom, _ = self._get_dcm_arr(
                 os.path.join(self.mri_rootdir, t2_star_dir))
             img1, img2, img3 = self._split_image_three(ArrayDicom)
-            org1_id = "org{}_{}".format(org_nrs[0], org_date)
-            org2_id = "org{}_{}".format(org_nrs[1], org_date)
-            org3_id = "org{}_{}".format(org_nrs[2], org_date)
+            org1_id = f"org{org_nrs[0]}_{org_date}"
+            org2_id = f"org{org_nrs[1]}_{org_date}"
+            org3_id = f"org{org_nrs[2]}_{org_date}"
 
             assert img1.shape == img2.shape and img2.shape == img3.shape
             # save one npy file per organoid
@@ -60,7 +63,7 @@ class DICOMImageExtractor(object):
         """
         os.makedirs(self.outdir_dwmri, exist_ok=True)
         org_locs = dict()
-        for root, dirs, files in os.walk(self.mri_rootdir):
+        for root, _, files in os.walk(self.mri_rootdir):
             if len(files) == 264:
                 time = os.path.basename(os.path.dirname(root))
                 org = os.path.basename(os.path.dirname(os.path.dirname(root)))
@@ -132,7 +135,7 @@ class DICOMImageExtractor(object):
         assert kind in ['t2star', 'dwmri']
         PathDicom = filepath
         lstFilesDCM = []  # create an empty list
-        for dirName, subdirList, fileList in os.walk(PathDicom):
+        for dirName, _, fileList in os.walk(PathDicom):
             for filename in sorted(fileList):
                 if ".dcm" in filename.lower():  # check whether the file's DICOM
                     lstFilesDCM.append(os.path.join(dirName, filename))
@@ -155,10 +158,10 @@ class DICOMImageExtractor(object):
 
         # The array is sized based on 'ConstPixelDims'
         if kind == 't2star':
-            ArrayDicom = numpy.zeros(
+            ArrayDicom = np.zeros(
                 ConstPixelDims, dtype=RefDs.pixel_array.dtype)
         else:
-            ArrayDicom = numpy.zeros(ConstPixelDims, dtype='float32')
+            ArrayDicom = np.zeros(ConstPixelDims, dtype='float32')
         # loop through all the DICOM files
         for filenameDCM in lstFilesDCM:
             # read the file
@@ -181,12 +184,8 @@ class DICOMImageExtractor(object):
         Returns:
             ndarray, ndarray, ndarray: Three equal sized arrays, each containing one organoid
         """
-        """
-        
-        """
         if do_min_max_norm:
             dcmarr = min_max_norm(dcmarr)
-        split_dim = 0
         dim_length = int(len(dcmarr[:, 0, 0]))
         arrs = []
         for i in range(0, dim_length, int(dim_length/3)):

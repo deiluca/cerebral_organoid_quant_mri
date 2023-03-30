@@ -1,22 +1,27 @@
+"""Extract segmentation performance"""
+
 import os
+from os.path import join as opj
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from os.path import join as opj
 
 from scripts.utils.constants import CSV_ORG_OVERVIEW
 from scripts.utils.metrics import get_dice
 
 
-class SegmentationPerformanceExtractor(object):
+class SegmentationPerformanceExtractor():
+    """Extracts performance for segmentation
+    """
+
     def __init__(self,
                  pred_dir,
                  gt_dir):
         """Initialize SegmentationPerformanceExtractor
 
         Args:
-            pred_dir (str): directory of predictions in form of numpy files. One numpy file per sample.
-            gt_dir (str): directory of ground truths in form of numpy files. One numpy file per sample.
+            pred_dir (str): prediction directory with numpy files (one per sample).
+            gt_dir (str): ground truth directory with numpy files (one per sample).
         """
 
         self.pred_dir = pred_dir
@@ -55,8 +60,10 @@ class SegmentationPerformanceExtractor(object):
 
         all_pred = sorted([opj(self.pred_dir, x) for x in os.listdir(
             self.pred_dir) if x.endswith('predictions.npy')])
-        all_gt = sorted([opj(self.gt_dir, x) for x in os.listdir(self.gt_dir) if x.endswith(
-            '.npy') and f'{x.replace(".npy", "")}_predictions.npy' in os.listdir(self.pred_dir)])
+        all_gt = sorted(
+            [opj(self.gt_dir, x) for x in os.listdir(self.gt_dir)
+             if x.endswith('.npy') and f'{x.replace(".npy", "")}_predictions.npy' in
+             os.listdir(self.pred_dir)])
         all_img_pairs = dict(zip(all_pred, all_gt))
         dice_scores = dict()
         for pred, gt in all_img_pairs.items():
@@ -77,7 +84,7 @@ class SegmentationPerformanceExtractor(object):
             save_to (str, optional): path to save plot. Defaults to ''.
         """
         sns.set_style("whitegrid")
-        fig, axs = plt.subplots(1, 2, figsize=(8, 3), facecolor='white')
+        _, axs = plt.subplots(1, 2, figsize=(8, 3), facecolor='white')
 
         # boxplot
         sns.boxplot(data=self.df, x='org_nr', y='Test Dice', ax=axs[0])

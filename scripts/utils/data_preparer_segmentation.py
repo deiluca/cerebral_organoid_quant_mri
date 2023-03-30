@@ -100,8 +100,9 @@ class DataPreparerSegmentation(object):
             target_dir = opj(outdir, 'train')
             os.makedirs(target_dir)
             for train_org in train:
-                shutil.copyfile(opj(self.org_seg_files_3dunet,
-                                train_org+".h5"), opj(target_dir, train_org+".h5"))
+                shutil.copyfile(
+                    opj(self.org_seg_files_3dunet, train_org + ".h5"),
+                    opj(target_dir, train_org + ".h5"))
 
             target_dir = opj(outdir, 'val')
             os.makedirs(target_dir)
@@ -112,8 +113,9 @@ class DataPreparerSegmentation(object):
             target_dir = opj(outdir, 'test')
             os.makedirs(target_dir)
             for test_org in test:
-                shutil.copyfile(opj(self.org_seg_files_3dunet,
-                                test_org+".h5"), opj(target_dir, test_org+".h5"))
+                shutil.copyfile(
+                    opj(self.org_seg_files_3dunet, test_org + ".h5"),
+                    opj(target_dir, test_org + ".h5"))
 
         print('done')
 
@@ -174,14 +176,16 @@ class DataPreparerSegmentation(object):
             target_dir = opj(outdir, 'test')
             os.makedirs(target_dir)
             for test_org in orgs_test:
-                shutil.copyfile(opj(self.cyst_seg_files_3dunet,
-                                test_org+".h5"), opj(target_dir, test_org+".h5"))
+                shutil.copyfile(
+                    opj(self.cyst_seg_files_3dunet, test_org + ".h5"),
+                    opj(target_dir, test_org + ".h5"))
 
             target_dir = opj(outdir, 'train')
             os.makedirs(target_dir)
             for train_org in train:
-                shutil.copyfile(opj(self.cyst_seg_files_3dunet,
-                                train_org+".h5"), opj(target_dir, train_org+".h5"))
+                shutil.copyfile(
+                    opj(self.cyst_seg_files_3dunet, train_org + ".h5"),
+                    opj(target_dir, train_org + ".h5"))
 
             target_dir = opj(outdir, 'val')
             os.makedirs(target_dir)

@@ -49,8 +49,8 @@ export PYTHONPATH="${PYTHONPATH}:path/to/cerebral_organoid_quant_mri"
 
 1. Train and test 3D U-Net. (can be skipped: checkpoints from previous run are located [here](results/organoid_segmentation/checkpoint_dirs_trained_previously))
      ```
-     python scripts/train_organoid_seg.py
-     python scripts/test_organoid_seg.py
+     python scripts/train_segmentation.py org_seg
+     python scripts/test_segmentation.py org_seg
      ```
 2. Extract and inspect results using [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 
@@ -88,8 +88,8 @@ See [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 ## Local cyst segmentation
 1. Train and test 3D U-Net. (can be skipped: checkpoints from previous run are located [here](results/local_cyst_segmentation/checkpoint_dirs_trained_previously))
      ```
-     python scripts/train_local_cyst_seg.py
-     python scripts/test_local_cyst_seg.py
+     python scripts/train_segmentation.py local_cyst_seg
+     python scripts/test_segmentation.py local_cyst_seg
      ```
 2. Extract and inspect results using [scripts/data_analysis.ipynb](scripts/data_analysis.ipynb)
 

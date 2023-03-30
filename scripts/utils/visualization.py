@@ -1,15 +1,18 @@
+"""Scripts for visualization"""
+
+from collections import Counter
+import io
+
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from collections import Counter
-import io
-from PIL import Image
+
 
 from scripts.utils.constants import CSV_ORG_OVERVIEW
 from scripts.utils.io_utils import get_masks, get_orig_imgs
-from scripts.utils.dwmri import get_metrics_global_cyst_seg_dw_mri
+from scripts.utils.dw_mri import get_metrics_global_cyst_seg_dw_mri
 from scripts.utils.global_cyst_classification import get_compactness
 
 
@@ -87,8 +90,9 @@ def plot_trace_lq_hq_mean_org_int(save_to=''):
     _, dfs_dwmri = get_metrics_global_cyst_seg_dw_mri()
     df_trace = dfs_dwmri[1]
     plt.figure(figsize=(4, 3), facecolor='white')
-    sns.swarmplot(data=df_trace.sort_values('Organoid quality',
-                  ascending=True), y='mean_organoid_intensity', x='Organoid quality')
+    sns.swarmplot(data=df_trace.sort_values(
+        'Organoid quality', ascending=True),
+        y='mean_organoid_intensity', x='Organoid quality')
     plt.ylabel('$\mu_{int}$')
     plt.xlabel('Organoid quality', fontsize=11)
     plt.grid()
@@ -125,7 +129,8 @@ def get_org_boundaries(org_locs_planes, i):
     return (*x,)
 
 
-def plot_examples_lq_hq_organoids(org_ids, compactnesses, org_locs_planes, save_to=''):
+def plot_examples_lq_hq_organoids(
+        org_ids, compactnesses, org_locs_planes, save_to=''):
     """Creates 2x2 plot with two examples per organoid and four organoids in total
 
     Args:
@@ -164,12 +169,15 @@ def plot_examples_lq_hq_organoids(org_ids, compactnesses, org_locs_planes, save_
         axs[i].imshow(extract_imgs[i])
         axs[i].axis('off')
         axs[i].set_title(
-            f'{subplot_prefixes[i]} {org_ids[i]} (C={compactnesses[i]})', y=-0.01)
+            f'{subplot_prefixes[i]} {org_ids[i]} (C={compactnesses[i]})', y=-
+            0.01)
 
     axs[0].text(-10.8, 0.01, 'High-quality organoids', fontsize=12,
-                verticalalignment='center', horizontalalignment='left', fontweight='bold')
+                verticalalignment='center', horizontalalignment='left',
+                fontweight='bold')
     axs[2].text(-10.8, 0.01, 'Low-quality organoids', fontsize=12,
-                verticalalignment='center', horizontalalignment='left', fontweight='bold')
+                verticalalignment='center', horizontalalignment='left',
+                fontweight='bold')
     plt.tight_layout()
     if save_to != '':
         plt.savefig(save_to, dpi=300)

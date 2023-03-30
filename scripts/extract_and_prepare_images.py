@@ -1,5 +1,7 @@
-from scripts.utils.DataPreparerSegmentation import DataPreparerSegmentation  # noqa
-from scripts.utils.DICOMImageExtractor import DICOMImageExtractor  # noqa
+"""Extracts and prepares all MRI images"""
+
+from scripts.utils.data_preparer_segmentation import DataPreparerSegmentation  # noqa
+from scripts.utils.dicom_image_extractor import DICOMImageExtractor  # noqa
 
 # extract single images from DICOM images
 die = DICOMImageExtractor()
