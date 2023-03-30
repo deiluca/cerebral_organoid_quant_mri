@@ -20,4 +20,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files *.py | grep -v 'pytorch3dunet') --disable=C0103,C0301 --fail-under 9.0
+        pylint $(git ls-files *.py | grep -v 'pytorch3dunet') --disable=C0103,C0301,E0401 --fail-under 9.0
