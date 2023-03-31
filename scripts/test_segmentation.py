@@ -86,8 +86,8 @@ def test_all_models(config_locs):
 
 
 if __name__ == '__main__':
-    kind = sys.argv[0]
-    assert kind in ['org_seg', 'local_cyst_seg']
-    config_locs = create_conf_files_test(kind=kind, create_yml=True)
-    test_all_models(config_locs)
-    move_test_files_to_common_dir(kind=kind)
+    seg_kind = sys.argv[0]
+    assert seg_kind in ['org_seg', 'local_cyst_seg']
+    config_locations = create_conf_files_test(kind=seg_kind, create_yml=True)
+    test_all_models(config_locations)
+    move_test_files_to_common_dir(kind=seg_kind)

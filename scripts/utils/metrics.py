@@ -1,3 +1,5 @@
+"""Metrics like Dice and ROC AUC"""
+
 import numpy as np
 from scipy.stats import ttest_ind
 from sklearn.metrics import roc_auc_score
@@ -17,8 +19,8 @@ def dice(pred, true, k=1):
         _type_: _description_
     """
     intersection = np.sum(pred[true == k]) * 2.0
-    dice = intersection / (np.sum(pred) + np.sum(true))
-    return dice
+    dice_score = intersection / (np.sum(pred) + np.sum(true))
+    return dice_score
 
 
 def get_dice(pred_npy_loc, gt_npy_loc, dw_mri=False):

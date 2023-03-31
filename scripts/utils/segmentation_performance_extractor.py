@@ -65,13 +65,13 @@ class SegmentationPerformanceExtractor():
              if x.endswith('.npy') and f'{x.replace(".npy", "")}_predictions.npy' in
              os.listdir(self.pred_dir)])
         all_img_pairs = dict(zip(all_pred, all_gt))
-        dice_scores = dict()
+        dice_scores = {}
         for pred, gt in all_img_pairs.items():
 
             org = os.path.basename(pred)[:9]
             dice = get_dice(pred, gt)
 
-            dice_scores[org] = dict()
+            dice_scores[org] = {}
             dice_scores[org]['dice'] = dice
             dice_scores[org]['pred_file'] = pred
             dice_scores[org]['gt_file'] = gt

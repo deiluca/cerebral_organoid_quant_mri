@@ -67,7 +67,7 @@ def train_all_models(config_locs):
 
 
 if __name__ == '__main__':
-    kind = sys.argv[0]
-    assert kind in ['org_seg', 'local_cyst_seg']
-    config_locs = create_conf_files(kind=kind, create_yml=True)
-    train_all_models(config_locs)
+    seg_kind = sys.argv[0]
+    assert seg_kind in ['org_seg', 'local_cyst_seg']
+    config_locations = create_conf_files(kind=seg_kind, create_yml=True)
+    train_all_models(config_locations)
