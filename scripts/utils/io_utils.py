@@ -61,7 +61,7 @@ def get_masks(kind):
     elif kind == 'predicted_org_loc':
         d = 'results/organoid_segmentation/checkpoint_dirs_trained_previously/all_predictions_on_test_sets'
         suffix = '_predictions.npy'
-    all_gt = dict()
+    all_gt = {}
     for f in os.listdir(d):
         if not f.endswith('.npy'):
             continue

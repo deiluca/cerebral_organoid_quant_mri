@@ -62,20 +62,20 @@ class DICOMImageExtractor():
         """Saves one npy file per organoid and sequence in folder self.outdir_dwmri/seq[i]
         """
         os.makedirs(self.outdir_dwmri, exist_ok=True)
-        org_locs = dict()
+        org_locs = {}
         for root, _, files in os.walk(self.mri_rootdir):
             if len(files) == 264:
                 time = os.path.basename(os.path.dirname(root))
                 org = os.path.basename(os.path.dirname(os.path.dirname(root)))
                 if org not in org_locs:
-                    org_locs[org] = dict()
+                    org_locs[org] = {}
                 org_locs[org][time] = root
         for i in range(0, 22):
             print(f'Extracting DW-MRI sequence {i}')
             outdir2 = opj(self.outdir_dwmri, f'seq{i}')
             os.makedirs(outdir2, exist_ok=True)
 
-            org_mri = dict()
+            org_mri = {}
             for k, v in org_locs.items():
                 for k2, v2 in v.items():
                     org, time = k, k2

@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 from scripts.utils.metrics import dice
 
 
-class SegmentationOverlayVisualizer(object):
+class SegmentationOverlayVisualizer():
     """
     Visualizes the original image, ground truth and prediction for one organoid
     """
@@ -113,7 +113,7 @@ class SegmentationOverlayVisualizer(object):
         Returns:
             indices_dices (dict): key = index of image along specified axis; value = dice score of prediction and ground truth
         """
-        indices_dices = dict()
+        indices_dices = {}
         for i in range(self.gt.shape[-1]):
             idx_valid = False
             if np.count_nonzero(self.gt[:, :, i] > 0) > self.px_threshold:
@@ -131,7 +131,7 @@ class SegmentationOverlayVisualizer(object):
         Returns:
             indices_dices (dict): key = index of image along specified axis; value = dice score of prediction and ground truth
         """
-        indices_dices = dict()
+        indices_dices = {}
         for i in range(self.gt.shape[-3]):
             idx_valid = False
             if np.count_nonzero(self.gt[i, :, :] > 0) > self.px_threshold:
@@ -149,7 +149,7 @@ class SegmentationOverlayVisualizer(object):
         Returns:
             indices_dices (dict): key = index of image along specified axis; value = dice score of prediction and ground truth
         """
-        indices_dices = dict()
+        indices_dices = {}
         for i in range(self.gt.shape[-2]):
             idx_valid = False
             if np.count_nonzero(self.gt[:, i, :] > 0) > self.px_threshold:
