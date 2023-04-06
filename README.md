@@ -1,4 +1,4 @@
-# Cerebral organoid quantification in MRI
+# An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids
 [![Pylint](https://github.com/deiluca/cerebral_organoid_quant_mri/actions/workflows/pylint.yml/badge.svg)](https://github.com/deiluca/cerebral_organoid_quant_mri/actions/workflows/pylint.yml)
 
 This repository reproduces the results published in the paper "Cerebral organoid quantification in MRI"
