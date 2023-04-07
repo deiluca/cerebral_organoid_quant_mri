@@ -87,6 +87,8 @@ def plot_trace_lq_hq_mean_org_int(save_to=''):
     Args:
         save_to (str, optional): path to save plot. Defaults to ''.
     """
+    params = {'mathtext.default': 'regular'}
+    plt.rcParams.update(params)
     _, dfs_dwmri = get_metrics_global_cyst_seg_dw_mri()
     df_trace = dfs_dwmri[1]
     df_trace['mean_organoid_intensity_x1000'] = df_trace['mean_organoid_intensity'] * 1000
@@ -94,7 +96,7 @@ def plot_trace_lq_hq_mean_org_int(save_to=''):
     sns.swarmplot(data=df_trace.sort_values(
         'Organoid quality', ascending=True),
         y='mean_organoid_intensity_x1000', x='Organoid quality')
-    plt.ylabel(r'Trace [$x10^{-3} mm^2/s$]')
+    plt.ylabel(r'Trace [$x10^{-3}$ $mm^2/s$]')
     plt.title('p < .001', fontsize=11)
     plt.xlabel('Organoid quality', fontsize=11)
     plt.grid()
