@@ -6,6 +6,7 @@ __pycache__
 # large data directories
 data/data_zenodo/
 data/T2_star_images
+data/DW-MRI_images
 all_data/
 all_results/
 results_backup/

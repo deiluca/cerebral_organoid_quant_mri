@@ -89,18 +89,19 @@ def plot_trace_lq_hq_mean_org_int(save_to=''):
     """
     _, dfs_dwmri = get_metrics_global_cyst_seg_dw_mri()
     df_trace = dfs_dwmri[1]
+    df_trace['mean_organoid_intensity_x1000'] = df_trace['mean_organoid_intensity'] * 1000
     plt.figure(figsize=(4, 3), facecolor='white')
     sns.swarmplot(data=df_trace.sort_values(
         'Organoid quality', ascending=True),
-        y='mean_organoid_intensity', x='Organoid quality')
-    plt.ylabel('$\mu_{int}$')
+        y='mean_organoid_intensity_x1000', x='Organoid quality')
+    plt.ylabel(r'Trace [$x10^{-3} mm^2/s$]')
+    plt.title('p < .001', fontsize=11)
     plt.xlabel('Organoid quality', fontsize=11)
     plt.grid()
-    plt.title(r'Sequence Trace (p < .001)', fontsize=11)
     sns.despine()
     plt.tight_layout()
     if save_to != '':
-        plt.savefig(save_to, dpi=300)
+        plt.savefig(save_to, dpi=700)
 
 
 def get_org_boundaries(org_locs_planes, i):
