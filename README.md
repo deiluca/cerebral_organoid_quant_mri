@@ -1,7 +1,7 @@
 # An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids
 [![Pylint](https://github.com/deiluca/cerebral_organoid_quant_mri/actions/workflows/pylint.yml/badge.svg)](https://github.com/deiluca/cerebral_organoid_quant_mri/actions/workflows/pylint.yml)
 
-This repository reproduces the results published in the paper "An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids"
+This repository reproduces the results published in the paper [*An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids*](https://doi.org/10.1101/2023.04.07.535822) [1]
 
 Specifically, it especially implements three tasks:
 - Organoid segmentation
@@ -114,6 +114,24 @@ Yes, high correlation. Extract and inspect results using [scripts/data_analysis.
      alt="Markdown Monster icon"
      style="float: center; margin-right: 10px; width:500px" />
 
+
 Please note that repeated 3D U-Net training runs might lead to slightly different results. This is caused by random initialization of 3D U-Net weights.
 
+
+**Cite**
+
 If you find this useful, please consider citing our work:
+
+[1] Deininger, L. et al. (2023) “An AI-based segmentation and analysis pipeline for high-field mr monitoring of cerebral organoids.” Available at: https://doi.org/10.1101/2023.04.07.535822.
+
+``` 
+@article{Deininger2023,
+  doi = {10.1101/2023.04.07.535822},
+  url = {https://doi.org/10.1101/2023.04.07.535822},
+  year = {2023},
+  month = apr,
+  publisher = {Cold Spring Harbor Laboratory},
+  author = {Luca Deininger and Sabine Jung-Klawitter and Petra Richter and Manuel Fischer and Kianush Karimian-Jazi and Michael Breckwoldt and Martin Bendszus and Sabine Heiland and Jens Kleesiek and Ralf Mikut and Daniel Huebschmann and Daniel Schwarz},
+  title = {An {AI}-based segmentation and analysis pipeline for high-field {MR} monitoring of cerebral organoids}
+}
+```
