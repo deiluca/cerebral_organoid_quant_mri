@@ -39,7 +39,7 @@ export PYTHONPATH="${PYTHONPATH}:path/to/cerebral_organoid_quant_mri"
 
 ## Data preparation
 
-1. Download the data from Zenodo (https://zenodo.org/, DOI: 10.5281/zenodo.7805426) and unpack it in data/data_zenodo.
+1. Download the data from [Zenodo](https://zenodo.org/record/7805426) and unpack it in data/data_zenodo.
 
 2. Image extraction and data preparation
     ```
