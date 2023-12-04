@@ -1,7 +1,7 @@
 # An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids
 [![Pylint](https://github.com/deiluca/cerebral_organoid_quant_mri/actions/workflows/pylint.yml/badge.svg)](https://github.com/deiluca/cerebral_organoid_quant_mri/actions/workflows/pylint.yml)
 
-This repository reproduces the results published in the paper [*An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids*](https://doi.org/10.1101/2023.04.07.535822) [1]
+This repository reproduces the results published in the paper [*An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids*](https://doi.org/10.1038/s41598-023-48343-7) [1]
 
 Specifically, it especially implements three tasks:
 - Organoid segmentation
@@ -122,16 +122,20 @@ Please note that repeated 3D U-Net training runs might lead to slightly differen
 
 If you find this useful, please consider citing our work:
 
-[1] Deininger, L. et al. (2023) “An AI-based segmentation and analysis pipeline for high-field mr monitoring of cerebral organoids.” Available at: https://doi.org/10.1101/2023.04.07.535822.
+[1] Deininger, L., Jung-Klawitter, S., Mikut, R. et al. An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids. Sci Rep 13, 21231 (2023).
 
 ``` 
 @article{Deininger2023,
-  doi = {10.1101/2023.04.07.535822},
-  url = {https://doi.org/10.1101/2023.04.07.535822},
+  title = {An AI-based segmentation and analysis pipeline for high-field MR monitoring of cerebral organoids},
+  volume = {13},
+  ISSN = {2045-2322},
+  url = {http://dx.doi.org/10.1038/s41598-023-48343-7},
+  DOI = {10.1038/s41598-023-48343-7},
+  number = {1},
+  journal = {Scientific Reports},
+  publisher = {Springer Science and Business Media LLC},
+  author = {Deininger,  Luca and Jung-Klawitter,  Sabine and Mikut,  Ralf and Richter,  Petra and Fischer,  Manuel and Karimian-Jazi,  Kianush and Breckwoldt,  Michael O. and Bendszus,  Martin and Heiland,  Sabine and Kleesiek,  Jens and Opladen,  Thomas and H\"{u}bschmann,  Oya Kuseyri and H\"{u}bschmann,  Daniel and Schwarz,  Daniel},
   year = {2023},
-  month = apr,
-  publisher = {Cold Spring Harbor Laboratory},
-  author = {Luca Deininger and Sabine Jung-Klawitter and Petra Richter and Manuel Fischer and Kianush Karimian-Jazi and Michael Breckwoldt and Martin Bendszus and Sabine Heiland and Jens Kleesiek and Ralf Mikut and Daniel Huebschmann and Daniel Schwarz},
-  title = {An {AI}-based segmentation and analysis pipeline for high-field {MR} monitoring of cerebral organoids}
+  month = dec 
 }
 ```
