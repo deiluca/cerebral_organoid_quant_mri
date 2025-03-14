@@ -1,6 +1,9 @@
 name: Pylint
 
-on: [push]
+on:
+  schedule:
+    - cron: "0 0 * * 1"  # Runs every Monday at midnight UTC
+  workflow_dispatch:  # Allows manual execution from GitHub UI
 
 jobs:
   build:
